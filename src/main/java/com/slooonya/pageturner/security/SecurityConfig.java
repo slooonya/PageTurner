@@ -1,0 +1,73 @@
+package com.slooonya.pageturner.security;
+
+import java.util.List;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+
+import com.slooonya.pageturner.user.UserRepository;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    UserDetailsService userDetailsService(UserRepository users) {
+        return email -> users.findByEmail(email.trim().toLowerCase())
+                .map(user -> new org.springframework.security.core.userdetails.User(
+                        user.getEmail(), user.getPassword(), List.of()))
+                .orElseThrow(() -> new org.springframework.security.core.userdetails.UsernameNotFoundException("User not found."));
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    HttpSessionSecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
+    }
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http, HttpSessionSecurityContextRepository repository) throws Exception {
+        return http
+                .securityContext(context -> context.securityContextRepository(repository))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(
+                            "/auth", 
+                            "/sign-in", 
+                            "/sign-up", 
+                            "/forgot-password", 
+                            "/error", 
+                            "/css/**", 
+                            "/js/**", 
+                            "/images/**"
+                        ).permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(AbstractHttpConfigurer::disable)
+                .logout(
+                    logout -> logout
+                    .logoutSuccessUrl("/auth?logout")
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .permitAll()
+                )
+                .build();
+    }
+}

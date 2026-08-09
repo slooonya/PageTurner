@@ -13,15 +13,13 @@
       <div class="auth-forms">
         <!-- Sign In Form -->
         <form th:action="@{/sign-in}" method="post" class="auth-form sign-in-form">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <h2 class="title">Login</h2>
 
-          <div th:if="${param.error}" class="alert alert-danger">
-            Invalid email or password.
-          </div>
+          <div th:if="${loginError}" class="alert alert-danger" th:text="${loginError}"></div>
 
-          <div th:if="${param.logout}" class="alert alert-success">
-            You have been logged out successfully.
-          </div>
+          <div th:if="${logoutMessage}" class="alert alert-success" th:text="${logoutMessage}"></div>
+          <div th:if="${registrationMessage}" class="alert alert-success" th:text="${registrationMessage}"></div>
 
           <div class="input-field">
             <i class="fas fa-envelope"></i>
@@ -47,6 +45,7 @@
         <!-- Sign Up Form -->
         <form th:action="@{/sign-up}" method="post" enctype="multipart/form-data" 
           class="auth-form sign-up-form" th:object="${user}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <h2 class="title">Register</h2>
 
           <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
