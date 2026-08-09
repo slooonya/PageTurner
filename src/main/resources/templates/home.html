@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
+</head>
+<body>
+  <nav class="navbar">
+    <ul class="navbar-list">
+      <li class="logo">
+        <a href="/home" class="nav-link">
+          <i class="fas fa-book-open fa-2x"></i>
+          <span class="link-text logo-text">PageTurner</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/home" class="nav-link">
+          <i class="fas fa-home fa-2x"></i>
+          <span class="link-text">Home</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/progress" class="nav-link">
+          <i class="fas fa-chart-line fa-2x"></i>
+          <span class="link-text">Progress</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/profile" class="nav-link">
+          <i class="fas fa-user fa-2x"></i>
+          <span class="link-text">Profile</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <form id="logoutForm" th:action="@{/logout}" method="POST" class="nav-form">
+          <button type="submit" class="nav-link">
+              <i class="fas fa-sign-out-alt fa-2x"></i>
+              <span class="link-text">Logout</span>
+          </button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="container">
+      <header>
+        <div class="header-top">
+          <h1>Reading Tracker</h1>
+          <div class="header-actions">
+            <button id="addLogBtn" class="btn">
+              <i class="fas fa-plus"></i> Add Entry
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-box">
+            <input type="text" id="search" placeholder="Search by title, author or notes">
+            <button id="searchBtn" class="btn-icon">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+
+          <div class="sort-options">
+            <label for="sort">Sort by:</label>
+            <select id="sort">
+              <option value="date-desc">Date (Newest First)</option>
+              <option value="date-asc">Date (Oldest First)</option>
+              <option value="time-desc">Time (Longest First)</option>
+              <option value="time-asc">Time (Shortest First)</option>
+              <option value="title-asc">Title (A-Z)</option>
+              <option value="title-desc">Title (Z-A)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-container">
+          <button class="filter-toggle" id="filterToggle">
+            <i class="fas fa-filter"></i> Filters
+          </button>
+          
+          <div class="filter-controls" id="filterControls">
+            <div class="filter-group">
+                <label for="startDate">From</label>
+                <input type="date" id="startDate">
+              </div>
+              
+              <div class="filter-group">
+                <label for="endDate">To</label>
+                <input type="date" id="endDate">
+              </div>
+              
+              <div class="filter-group">
+                <label for="minTime">Min mins</label>
+                <input type="number" id="minTime" min="0" placeholder="0">
+              </div>
+              
+              <div class="filter-group">
+                <label for="maxTime">Max mins</label>
+                <input type="number" id="maxTime" min="0" placeholder="0">
+              </div>
+              
+              <div class="filter-actions">
+                <button id="resetFilters" class="btn small transparent">
+                  <i class="fas fa-undo"></i> Reset
+                </button>
+
+                <button id="applyFilters" class="btn small">
+                  <i class="fas fa-check"></i> Apply
+                </button>
+              </div>
+          </div>
+        </div>
+      </header>
+
+      <div id="logs" class="logs-grid"></div>
+
+      <div class="modal" id="formModal" hidden>
+        <div class="modal-content">
+          <div class="modal-header">
+            <i class="fas fa-book-medical"></i>
+            <h2 id="formTitle">Add New Reading Log</h2>
+            <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
+          </div>
+
+          <form id="logForm">
+            <input type="hidden" id="logId">
+
+            <div class="form-grid">
+              <div class="form-section">
+                <div class="section-header">
+                  <i class="fas fa-book"></i>
+                  <h3>Book Information</h3>
+                </div>
+
+                <div class="form-group">
+                  <label for="title">
+                    <i class="fas fa-heading"></i> Book Title<span class="required">*</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <input type="text" id="title" required placeholder="Enter book title">
+                    <div id="title-error" class="error-message"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="author">
+                    <i class="fas fa-user-edit"></i> Author<span class="required">*</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <input type="text" id="author" required placeholder="Enter author name">
+                    <div id="author-error" class="error-message"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="totalPages">
+                    <i class="fas fa-book-open"></i> Total Pages<span class="required">*</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <input type="number" id="totalPages" min="1" required placeholder="Total pages in book">
+                    <div id="totalPages-error" class="error-message"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="section-header">
+                  <i class="fas fa-clock"></i>
+                  <h3>Reading Session</h3>
+                </div>
+
+                <div class="form-group">
+                  <label for="date">
+                    <i class="fas fa-calendar-day"></i> Date<span class="required">*</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <input type="date" id="date" required>
+                    <div id="date-error" class="error-message"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="timeSpent">
+                    <i class="fas fa-hourglass-half"></i> Time Spent (minutes)<span class="required">*</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <input type="number" id="timeSpent" min="0" required placeholder="Minutes spent reading">
+                    <div id="timeSpent-error" class="error-message"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="currentPage">
+                    <i class="fas fa-bookmark"></i> Current Page<span class="required">*</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <input type="number" id="currentPage" min="0" required placeholder="Page you are on">
+                    <div id="currentPage-error" class="error-message"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="section-header">
+                <i class="fas fa-sticky-note"></i>
+                <h3>Notes</h3>
+              </div>
+              <div class="form-group">
+                <div class="input-wrapper">
+                  <textarea id="notes" placeholder="Any thoughts or reflections?"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn primary">
+                <i class="fas fa-save"></i> Save
+              </button>
+              
+              <button type="button" class="btn secondary" data-modal-close>
+                <i class="fas fa-times"></i> Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal" id="detailModal" hidden>
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="header-icon">
+              <i class="fas fa-scroll"></i>
+            </div>
+
+            <h2>Reading Session Details</h2>
+            <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="detail-grid">
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <i class="fas fa-book"></i>
+                </div>
+
+                <div class="detail-info">
+                  <div class="detail-label">Book Title</div>
+                  <div class="detail-value" id="detailTitle"></div>
+                </div>
+              </div>
+
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <i class="fas fa-user-edit"></i>
+                </div>
+
+                <div class="detail-info">
+                  <div class="detail-label">Author</div>
+                  <div class="detail-value" id="detailAuthor"></div>
+                </div>
+              </div>
+
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <i class="fas fa-calendar-day"></i>
+                </div>
+
+                <div class="detail-info">
+                  <div class="detail-label">Reading Date</div>
+                  <div class="detail-value" id="detailDate"></div>
+                </div>
+              </div>
+
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <i class="fas fa-hourglass-half"></i>
+                </div>
+
+                <div class="detail-info">
+                  <div class="detail-label">Time Spent</div>
+                  <div class="detail-value" id="detailTime"> minutes</div>
+                </div>
+              </div>
+
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <i class="fas fa-book-open"></i>
+                </div>
+
+                <div class="detail-info">
+                  <div class="detail-label">Pages Read</div>
+                  <div class="detail-value">
+                    <span id="detailCurrentPage"></span> of <span id="detailTotalPages"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <i class="fas fa-chart-pie"></i>
+                </div>
+
+                <div class="detail-info">
+                  <div class="detail-label">Progress</div>
+                  <div class="detail-value" id="detailProgress"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="notes-section">
+              <div class="notes-header">
+                <i class="fas fa-pencil-alt"></i>
+                <h3>Notes</h3>
+              </div>
+
+              <div class="notes-content" id="detailNotes"></div>
+            </div>
+
+            <div class="history-section">
+              <button id="viewHistoryBtn" class="btn outline">
+                <i class="fas fa-history"></i> View Reading History
+              </button>
+
+              <div id="historyContainer" style="display: none; margin-top: 20px;">
+                <h3></i> Reading History</h3>
+                <div id="historyList" class="history-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-warning-modal" id="progressWarningModal" hidden>
+        <div class="modal-content">
+          <button type="button" class="close-btn" data-modal-close aria-label="Close">&times;</button>
+
+          <h3 id="warningTitle"></h3>
+          <p id="warningMessage"></p>
+
+          <div class="modal-actions">
+            <button id="confirmWarningBtn" type="button" class="btn">Continue Anyway</button>
+            <button id="cancelWarningBtn" type="button" class="btn transparent">Go Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="confirmationModal" hidden>
+      <div class="modal-content small-modal">
+        <div class="modal-header">
+          <i class="fas fa-exclamation-circle fa-2x"></i>
+          <h2 id="confirmationTitle">Confirm Action</h2>
+          <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <p id="confirmationMessage">Are you sure you want to perform this action?</p>
+        </div>
+
+        <div class="modal-actions">
+          <button id="confirmActionBtn" class="btn danger">
+            <i class="fas fa-check"></i> Confirm
+          </button>
+
+          <button id="confirmCancelBtn" class="btn secondary" data-modal-close>
+            <i class="fas fa-times"></i> Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="toastContainer" class="toast-container"></div>
+  <script type="module" th:src="@{/js/pages/home/home-page.js}"></script>
+</body>
+</html>
