@@ -1,28 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
-
-:root {
-  --wine: #722f37; 
-  --wine-dark: #5a242a; 
-  --cream: #d9c3a1; 
-  --surface: #fff; 
-  --muted: #f8f9fa; 
-  --text: #333; 
-  --border: #d1d1d1; 
-  --shadow: 0 10px 30px rgb(0 0 0 / 10%); 
-}
-
-* { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
-}
-
-body { 
-  min-height: 100vh; 
-  background: var(--cream); 
-  color: var(--text); 
-  font-family: "Poppins", sans-serif; 
-}
+@import url("./global.css");
 
 main { 
   margin-left: 5rem; 
@@ -134,7 +110,6 @@ header {
   margin-bottom: 1.5rem;
 }
 
-.btn,
 .btn-icon { 
   display: inline-flex;
   align-items: center;
@@ -150,30 +125,12 @@ header {
   transition: background-color 200ms ease; 
 }
 
-.btn { 
-  gap: .5rem; 
-  padding: .5rem 1.5rem; 
-}
-
 .btn-icon { 
   padding: 0 1rem; 
 }
 
-.btn:hover,
 .btn-icon:hover { 
   background: var(--wine-dark); 
-}
-
-.btn.secondary { 
-  border: 1px solid var(--border); 
-  background: var(--surface); 
-  color: #4b5563; 
-}
-
-.btn.transparent {
-  border: 1px solid var(--wine); 
-  background: transparent; 
-  color: var(--wine); 
 }
 
 .btn.small { 

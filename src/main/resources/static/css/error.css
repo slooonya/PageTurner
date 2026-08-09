@@ -1,0 +1,45 @@
+@import url("./global.css");
+
+.error-container { 
+  display: flex; 
+  min-height: 100vh; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 2rem; 
+  text-align: center; 
+}
+
+.error-icon { 
+  margin-bottom: 1.5rem; 
+  color: var(--wine);
+  font-size: 5rem; 
+}
+
+.error-title { 
+  margin-bottom: 1rem; 
+  color: var(--wine); 
+  font-size: 2.5rem; 
+  font-weight: 600; 
+}
+
+.error-message { 
+  max-width: 400px; 
+  margin-bottom: 2rem; 
+  font-size: 1rem; 
+  line-height: 1.6; 
+}
+
+@media (max-width:600px) { 
+  .error-container { 
+    padding: 1.5rem; 
+  } 
+
+  .error-title { 
+    font-size: 2rem; 
+  } 
+  
+  .error-message { 
+    font-size: 1rem; 
+  } 
+}

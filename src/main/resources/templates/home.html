@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Home</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/css/home.css}"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <title>Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/home.css}"/>
 </head>
 <body>
   <nav class="navbar">
     <ul class="navbar-list">
       <li class="logo">
-        <a href="/home" class="nav-link">
+        <a href="/" class="nav-link">
           <i class="fas fa-book-open fa-2x"></i>
           <span class="link-text logo-text">PageTurner</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a href="/home" class="nav-link">
+        <a href="/" class="nav-link">
           <i class="fas fa-home fa-2x"></i>
           <span class="link-text">Home</span>
         </a>

@@ -8,7 +8,11 @@ public class AppController {
 
   @GetMapping("/") 
   public String getHomePage() {
-    return "home";
+      return "home";
   }
-  
+
+  @GetMapping("/error")
+  public String showErrorPage() {
+      return "error";
+  }
 }
