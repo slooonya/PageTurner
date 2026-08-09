@@ -139,7 +139,7 @@
 }
 
 .auth-form > .btn { 
-  width: 150px; 
+  min-width: 150px; 
   height: 49px; 
   margin: .625rem 0; 
   text-transform: uppercase; 
