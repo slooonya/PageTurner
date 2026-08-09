@@ -52,6 +52,9 @@ public class User {
     @Transient
     private MultipartFile avatarFile;
 
+    @Column(name = "bio")
+    private String bio;
+
     public boolean isPasswordMatch() {
         return password != null && password.equals(confirmPassword);
     }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <title>Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/profile.css}">
+  <link rel="stylesheet" th:href="@{/css/navbar.css}">
+</head>
+<body>
+  <nav class="navbar">
+    <ul class="navbar-list">
+      <li class="logo">
+        <a href="/home" class="nav-link">
+          <i class="fas fa-book-open fa-2x"></i>
+          <span class="link-text logo-text">PageTurner</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/home" class="nav-link">
+          <i class="fas fa-home fa-2x"></i>
+          <span class="link-text">Home</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/progress" class="nav-link">
+          <i class="fas fa-chart-line fa-2x"></i>
+          <span class="link-text">Progress</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/profile" class="nav-link">
+          <i class="fas fa-user fa-2x"></i>
+          <span class="link-text">Profile</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <form id="logoutForm" th:action="@{/logout}" method="POST" class="nav-form">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+          <button type="submit" class="nav-link">
+              <i class="fas fa-sign-out-alt fa-2x"></i>
+              <span class="link-text">Logout</span>
+          </button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+
+  <main class="profile-page">
+    <section class="profile-card">
+      <header class="profile-header">
+        <div class="avatar">
+          <img id="avatarImage" th:if="${user.avatarFileName}" 
+            th:src="@{/avatars/{file}(file=${user.avatarFileName})}" 
+            alt="Profile picture">
+          <i th:unless="${user.avatarFileName}" 
+            class="fas fa-user" aria-hidden="true">
+          </i>
+        </div>
+
+        <div>
+          <h1 th:text="${user.username}">Username</h1>
+          <p th:text="${user.email}">email@example.com</p>
+        </div>
+      </header>
+
+      <form id="avatarForm" class="profile-section" enctype="multipart/form-data">
+        <h2>Profile picture</h2>
+        <label class="upload-control" for="avatarInput">
+          <i class="fas fa-camera"></i> 
+          Choose a PNG or JPEG image
+        </label>
+        <input id="avatarInput" type="file" accept="image/png,image/jpeg" hidden>
+      </form>
+
+      <form id="profileForm" class="profile-section">
+        <h2>Profile details</h2>
+        <label for="username">Username</label>
+        <input id="username" type="text" th:value="${user.username}" 
+          minlength="4" maxlength="20" required>
+        <label for="bio"> Bio 
+          <span>Optional, 280 characters max</span>
+        </label>
+        <textarea id="bio" maxlength="280" th:text="${user.bio}" 
+          placeholder="Tell us a little about yourself">
+        </textarea>
+        <button class="btn" type="submit">Save changes</button>
+      </form>
+
+      <form id="passwordForm" class="profile-section">
+        <h2>Change password</h2>
+        <label for="currentPassword">Current password</label>
+        <input id="currentPassword" type="password" required>
+        <label for="newPassword">New password</label>
+        <input id="newPassword" type="password" required>
+        <label for="confirmPassword">Confirm new password</label>
+        <input id="confirmPassword" type="password" required>
+        <button class="btn" type="submit">Change password</button>
+      </form>
+    </section>
+  </main>
+  <div id="toastContainer" class="toast-container"></div>
+  <script type="module" th:src="@{/js/pages/profile/profile-page.js}"></script>
+</body>
+</html>

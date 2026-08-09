@@ -72,7 +72,7 @@ public class AuthController {
             HttpServletRequest request, HttpServletResponse response) {
         try {
             securityService.login(username, password, request, response);
-            return "redirect:/";
+            return "redirect:/home";
         } catch (BadCredentialsException exception) {
             return "redirect:/auth?error";
         }

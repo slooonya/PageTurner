@@ -1,0 +1,161 @@
+@import url("./global.css");
+
+.profile-page { 
+  width: min(720px, 100%);
+  margin: 0 auto; 
+  padding: 2rem 1rem; 
+}
+
+.back-link { 
+  margin-bottom: 1.5rem; 
+}
+
+.profile-card { 
+  overflow: hidden; 
+  border-radius: 1rem; 
+  background: var(--surface); 
+  box-shadow: var(--shadow); 
+}
+
+.profile-header { 
+  display: flex; 
+  align-items: center; 
+  gap: 1.25rem; 
+  padding: 2rem; 
+  color: #fff; 
+  background: linear-gradient(135deg, var(--wine-dark), var(--wine)); 
+}
+
+.profile-header h1 { 
+  font-size: 1.8rem; 
+}
+
+.profile-header p { 
+  opacity: .85; 
+}
+
+.avatar { 
+  display: grid; 
+  width: 96px; 
+  height: 96px; 
+  flex: 0 0 auto; 
+  place-items: center; 
+  overflow: hidden; 
+  border: 3px solid #fff; 
+  border-radius: 50%; 
+  background: var(--cream); 
+  color: var(--wine); 
+  font-size: 2.5rem; 
+}
+
+.avatar img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+.profile-section { 
+  display: grid; 
+  gap: .65rem; 
+  padding: 1.5rem 2rem; 
+  border-top: 1px solid #eee; 
+}
+
+.profile-section h2 { 
+  margin-bottom: .35rem; 
+  color: var(--wine); 
+  font-size: 1.25rem; 
+}
+
+.profile-section label { 
+  color: #4b5563; 
+  font-weight: 500;
+}
+
+.profile-section label span { 
+  color: #6b7280; 
+  font-size: .8rem; 
+  font-weight: 400; 
+}
+
+.profile-section input, 
+.profile-section textarea { 
+  width: 100%; 
+  padding: .7rem .8rem; 
+  border: 1px solid var(--border); 
+  border-radius: .5rem; 
+  color: var(--text); 
+  font: inherit; 
+}
+
+.profile-section input:focus, 
+.profile-section textarea:focus { 
+  outline: 0; 
+  border-color: var(--wine); 
+  box-shadow: 0 0 0 3px rgb(114 47 55 / 15%); 
+}
+
+.profile-section textarea { 
+  min-height: 100px; 
+  resize: vertical; 
+}
+
+.profile-section .btn { 
+  justify-self: start; 
+  margin-top: .5rem; 
+}
+
+.upload-control { 
+  display: inline-flex; 
+  width: fit-content; 
+  align-items: center; 
+  gap: .5rem; 
+  padding: .7rem 1rem; 
+  border: 1px dashed var(--wine); 
+  border-radius: .5rem; 
+  color: var(--wine) !important; 
+  cursor: pointer; 
+}
+
+.toast-container { 
+  position: fixed; 
+  right: 1.25rem; 
+  bottom: 1.25rem; 
+  z-index: 10; 
+}
+
+.toast { 
+  margin-top: .5rem; 
+  padding: .8rem 1rem; 
+  border-radius: .5rem; 
+  background: #2196f3; 
+  color: #fff; 
+  box-shadow: var(--shadow); 
+}
+
+.toast.success { 
+  background: #4caf50; 
+}
+
+.toast.error { 
+  background: #f44336; 
+}
+
+@media (max-width: 600px) { 
+  .profile-page { 
+    padding: 2rem; 
+  }
+  
+  .profile-header { 
+    align-items: flex-start; 
+    flex-direction: column; 
+  }
+  
+  .profile-section { 
+    padding: 1.25rem; 
+  }
+  
+  .profile-section .btn { 
+    width: 100%; 
+  } 
+}
