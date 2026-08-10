@@ -1,5 +1,16 @@
-export function filterAndSort(logs, { query, startDate, endDate, minTime, maxTime, sort }) {
+export function filterAndSort(
+    logs, 
+    { 
+        query = '', 
+        startDate = '',
+        endDate = '', 
+        minTime = '', 
+        maxTime = '', 
+        sort = 'date-desc'
+    }
+) {
     const term = query.trim().toLowerCase();
+
     const filtered = logs.filter((log) => {
         const text = `${log.title} ${log.author} ${log.notes || ''}`.toLowerCase();
         const date = new Date(log.date);

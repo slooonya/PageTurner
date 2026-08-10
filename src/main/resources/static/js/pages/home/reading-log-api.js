@@ -20,8 +20,30 @@ async function request(path, options = {}) {
     return response.status === 204 ? null : response.json();
 }
 
-export const getReadingLogs = () => request('');
-export const getReadingLog = (id) => request(`/${id}`);
-export const createReadingLog = (log) => request('', { method: 'POST', body: JSON.stringify(log) });
-export const updateReadingLog = (id, log) => request(`/${id}`, { method: 'PUT', body: JSON.stringify(log) });
-export const deleteReadingLog = (id) => request(`/${id}`, { method: 'DELETE' });
+export const getReadingLogs = 
+    () => request('');
+
+export const getReadingLog = 
+    (id) => request(`/${id}`);
+
+export const createReadingLog = 
+    (log) => request('', { 
+        method: 'POST', 
+        body: JSON.stringify(log) 
+    });
+
+export const updateReadingLog = 
+    (id, log) => request(`/${id}`, { 
+        method: 'PUT', 
+        body: JSON.stringify(log) 
+    });
+
+export const deleteReadingLog = 
+    (id) => request(`/${id}`, { 
+        method: 'DELETE' 
+    });
+
+export const getReadingLogHistory = 
+    (title, author, currentLogId) => request(
+        `/history?title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}&currentLogId=${currentLogId}`
+    );
