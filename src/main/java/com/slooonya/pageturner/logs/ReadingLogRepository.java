@@ -1,5 +1,6 @@
 package com.slooonya.pageturner.logs;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,6 @@ public interface ReadingLogRepository extends JpaRepository<ReadingLog, Long> {
         long userId, String title, boolean isCurrent
     );
     Optional<ReadingLog> findByPreviousVersionId(long previousVersionId);
+    List<ReadingLog> findByUserId(long userId);
+    List<ReadingLog> findByUserIdAndDateBetween(long userId, LocalDate startDate, LocalDate endDate);
 }
