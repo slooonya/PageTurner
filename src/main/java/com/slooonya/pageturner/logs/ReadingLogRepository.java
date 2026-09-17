@@ -21,4 +21,5 @@ public interface ReadingLogRepository extends JpaRepository<ReadingLog, Long> {
     Optional<ReadingLog> findByPreviousVersionId(long previousVersionId);
     List<ReadingLog> findByUserId(long userId);
     List<ReadingLog> findByUserIdAndDateBetween(long userId, LocalDate startDate, LocalDate endDate);
+    List<ReadingLog> findAllByOrderByDateDescIdDesc();
 }

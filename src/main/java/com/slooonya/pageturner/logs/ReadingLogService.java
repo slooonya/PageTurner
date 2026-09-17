@@ -28,8 +28,19 @@ public class ReadingLogService {
         return readingLogRepository.findByUserIdOrderByDateDescIdDesc(currentUser(principal).getId());
     }
 
+    public List<ReadingLog> findAllForAdmin() {
+        return readingLogRepository.findAllByOrderByDateDescIdDesc();
+    }
+
     public ReadingLog findById(long id, Principal principal) {
         return ownedLog(id, principal);
+    }
+
+    public ReadingLog findByIdForAdmin(long id) {
+        return readingLogRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Reading log not found."
+            ));
     }
 
     @Transactional
@@ -52,6 +63,18 @@ public class ReadingLogService {
 
         ReadingLog currentLog = ownedLog(id, principal);
 
+        return createUpdatedVersion(currentLog, request);
+    }
+
+    @Transactional
+    public ReadingLog updateForAdmin(long id, @Valid ReadingLogRequest request) {
+        validatePages(request);
+
+        return createUpdatedVersion(findByIdForAdmin(id), request);
+    }
+
+    private ReadingLog createUpdatedVersion(ReadingLog currentLog, ReadingLogRequest request) {
+
         String title = request.title().trim();
         String author = request.author().trim();
 
@@ -61,7 +84,7 @@ public class ReadingLogService {
             );
 
         Integer existingTotalPages = existingVersions.stream()
-                .filter(log -> !log.getId().equals(id))
+                .filter(log -> !log.getId().equals(currentLog.getId()))
                 .map(ReadingLog::getTotalPages)
                 .filter(totalPages -> totalPages != null)
                 .findFirst()
@@ -89,10 +112,18 @@ public class ReadingLogService {
 
     @Transactional
     public void delete(long id, Principal principal) {
-        ReadingLog log = ownedLog(id, principal);
+        deleteLog(ownedLog(id, principal));
+    }
+
+    @Transactional
+    public void deleteForAdmin(long id) {
+        deleteLog(findByIdForAdmin(id));
+    }
+
+    private void deleteLog(ReadingLog log) {
 
         readingLogRepository
-            .findByPreviousVersionId(id)
+            .findByPreviousVersionId(log.getId())
             .ifPresent(nextVersion -> {
                 nextVersion.setPreviousVersion(log.getPreviousVersion());
                     if (log.isCurrent()) nextVersion.setCurrent(true);

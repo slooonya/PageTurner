@@ -1,3 +1,8 @@
+main { 
+  margin-left: 5rem; 
+  padding: 1rem; 
+}
+
 .navbar { 
   position: fixed; 
   z-index: 100; 
@@ -71,6 +76,11 @@
 }
 
 @media (max-width:768px) {
+  main { 
+    margin: 0; 
+    padding-bottom: 6rem; 
+  }
+
   .navbar,
   .navbar:hover { 
     top: auto; 

@@ -49,16 +49,21 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public String register(@Valid @ModelAttribute("user") User user, BindingResult result,
-            @RequestParam(name = "avatar", required = false) MultipartFile avatar, Model model) {
+    public String register(@Valid @ModelAttribute("user") User user, 
+        BindingResult result,
+        @RequestParam(name = "avatar", required = false) MultipartFile avatar, 
+        @RequestParam(name = "adminCode", required = false) String adminCode,
+        Model model) {
+
         validateRegistration(user, avatar, result);
+
         if (result.hasErrors()) {
             model.addAttribute("containerClass", "sign-up-mode");
             return "auth";
         }
 
         try {
-            authService.register(user, avatar);
+            authService.register(user, avatar, adminCode);
             return "redirect:/auth?registered";
         } catch (IOException | AuthService.RegistrationException exception) {
             result.reject("registration", exception.getMessage());

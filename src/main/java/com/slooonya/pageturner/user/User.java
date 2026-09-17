@@ -1,12 +1,20 @@
 package com.slooonya.pageturner.user;
 
+import java.util.Set;
+
 import org.springframework.web.multipart.MultipartFile;
+
+import com.slooonya.pageturner.role.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
@@ -55,7 +63,28 @@ public class User {
     @Column(name = "bio")
     private String bio;
 
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = @JoinColumn(name="user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
+
+    private String adminCode;
+
+    @Column(name = "isFrozen", nullable=false)
+    private boolean isFrozen = false;
+
     public boolean isPasswordMatch() {
         return password != null && password.equals(confirmPassword);
+    }
+
+    public void freezeUser() {
+        this.isFrozen = true;
+    }
+    
+    public void unfreezeUser() {
+        this.isFrozen = false;
     }
 }

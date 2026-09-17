@@ -122,6 +122,16 @@
             <small class="inline-error"></small>
           </div>
 
+          <div class="input-field" th:classappend="${#fields.hasErrors('adminCode')} ? 'error' : ''">
+            <i class="fas fa-key"></i>
+            <input type="text" th:field="*{adminCode}" placeholder="Admin Code (Optional)" />
+            
+            <small class="error-message" 
+              th:if="${#fields.hasErrors('adminCode')}" th:errors="*{adminCode}">
+            </small>
+            <small class="inline-error"></small>
+          </div>
+
           <input type="submit" class="btn" value="Sign up" />
         </form>
       </div>

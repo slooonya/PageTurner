@@ -1,12 +1,16 @@
 package com.slooonya.pageturner.auth;
 
 import java.io.IOException;
+import java.util.HashSet;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.slooonya.pageturner.role.Role;
+import com.slooonya.pageturner.role.RoleRepository;
 import com.slooonya.pageturner.user.User;
 import com.slooonya.pageturner.user.UserRepository;
 
@@ -19,9 +23,13 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final FileStorageService fileStorageService;
+    private final RoleRepository roleRepository;
+
+    @Value("${app.admin.registration-code}")
+    private String adminRegistrationCode;
 
     @Transactional
-    public void register(User user, MultipartFile avatar) throws IOException {
+    public void register(User user, MultipartFile avatar, String adminCode) throws IOException {
         user.setEmail(user.getEmail().trim().toLowerCase());
         user.setUsername(user.getUsername().trim());
 
@@ -40,7 +48,27 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setConfirmPassword(null);
         user.setAvatarFileName(avatarFileName);
+
+        Role role;
+
+        if (adminCode != null && !adminCode.isBlank() && adminCode.equals(adminRegistrationCode)) {
+            if (!adminCode.equals(adminRegistrationCode))
+                throw new RegistrationException("Invalid administrator registration code.");
+
+            role = getOrCreateRole("ROLE_ADMIN");
+        } else {
+            role = getOrCreateRole("ROLE_USER");
+        }
+
+        user.setRoles(new HashSet<>());
+        user.getRoles().add(role);
+
         userRepository.save(user);
+    }
+
+    private Role getOrCreateRole(String roleName) {
+        return roleRepository.findByName(roleName)
+                .orElseGet(() -> roleRepository.save(new Role(roleName)));
     }
 
     public static class RegistrationException extends RuntimeException {
