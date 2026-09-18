@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.slooonya.pageturner.role.Role;
@@ -64,6 +65,27 @@ public class AuthService {
         user.getRoles().add(role);
 
         userRepository.save(user);
+    }
+
+    public void validateRegistration(User user, MultipartFile avatar, BindingResult result) {
+        if (user.getConfirmPassword() == null || user.getConfirmPassword().isBlank()) {
+            result.rejectValue("confirmPassword", "required", "Password confirmation is required.");
+        } else if (!user.isPasswordMatch()) {
+            result.rejectValue("confirmPassword", "match", "Passwords must match.");
+        }
+        if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail().trim().toLowerCase())) {
+            result.rejectValue("email", "duplicate", "This email address is already registered.");
+        }
+        if (user.getUsername() != null && userRepository.existsByUsername(user.getUsername().trim())) {
+            result.rejectValue("username", "duplicate", "This username is already taken.");
+        }
+        if (avatar != null && !avatar.isEmpty()) {
+            try {
+                fileStorageService.validateFile(avatar);
+            } catch (IOException exception) {
+                result.rejectValue("avatarFile", "invalid", exception.getMessage());
+            }
+        }
     }
 
     private Role getOrCreateRole(String roleName) {

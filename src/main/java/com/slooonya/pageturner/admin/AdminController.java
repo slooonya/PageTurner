@@ -22,11 +22,6 @@ public class AdminController {
     private final AdminService adminService;
     private final UserService userService;
 
-    @GetMapping("/account-frozen")
-    public String getAccountFrozenPage() {
-        return "account-frozen";
-    }
-
     @GetMapping("/admin-profile")
     public String profile(Model model) {
         model.addAttribute("user", userService.getCurrentUser());

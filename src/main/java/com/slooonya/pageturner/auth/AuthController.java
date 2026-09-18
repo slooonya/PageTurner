@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.slooonya.pageturner.security.SecurityService;
 import com.slooonya.pageturner.user.User;
-import com.slooonya.pageturner.user.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,8 +26,6 @@ public class AuthController {
 
     private final AuthService authService;
     private final SecurityService securityService;
-    private final UserRepository userRepository;
-    private final FileStorageService fileStorageService;
 
     @GetMapping("/auth")
     public String getAuthPage(Model model, @RequestParam(required = false) String error,
@@ -55,7 +52,7 @@ public class AuthController {
         @RequestParam(name = "adminCode", required = false) String adminCode,
         Model model) {
 
-        validateRegistration(user, avatar, result);
+        authService.validateRegistration(user, avatar, result);
 
         if (result.hasErrors()) {
             model.addAttribute("containerClass", "sign-up-mode");
@@ -78,29 +75,15 @@ public class AuthController {
         try {
             securityService.login(username, password, request, response);
             return "redirect:/home";
+        } catch (AccountFrozenException exception) {
+            return "redirect:/account-frozen";
         } catch (BadCredentialsException exception) {
             return "redirect:/auth?error";
         }
     }
 
-    private void validateRegistration(User user, MultipartFile avatar, BindingResult result) {
-        if (user.getConfirmPassword() == null || user.getConfirmPassword().isBlank()) {
-            result.rejectValue("confirmPassword", "required", "Password confirmation is required.");
-        } else if (!user.isPasswordMatch()) {
-            result.rejectValue("confirmPassword", "match", "Passwords must match.");
-        }
-        if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail().trim().toLowerCase())) {
-            result.rejectValue("email", "duplicate", "This email address is already registered.");
-        }
-        if (user.getUsername() != null && userRepository.existsByUsername(user.getUsername().trim())) {
-            result.rejectValue("username", "duplicate", "This username is already taken.");
-        }
-        if (avatar != null && !avatar.isEmpty()) {
-            try {
-                fileStorageService.validateFile(avatar);
-            } catch (IOException exception) {
-                result.rejectValue("avatarFile", "invalid", exception.getMessage());
-            }
-        }
+    @GetMapping("/account-frozen")
+    public String accountFrozen() {
+        return "account-frozen";
     }
 }

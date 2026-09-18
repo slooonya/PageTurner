@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
+import com.slooonya.pageturner.user.CustomUserDetails;
 import com.slooonya.pageturner.user.UserRepository;
 
 @Configuration
@@ -24,12 +25,13 @@ public class SecurityConfig {
     @Bean
     UserDetailsService userDetailsService(UserRepository users) {
         return email -> users.findByEmail(email.trim().toLowerCase())
-            .map(user -> new org.springframework.security.core.userdetails.User(
+            .map(user -> new CustomUserDetails(
                 user.getEmail(),
                 user.getPassword(),
                 user.getRoles().stream()
                     .map(role -> new SimpleGrantedAuthority(role.getName()))
-                    .toList()
+                    .toList(),
+                user.isFrozen()
             ))
             .orElseThrow(() ->
                 new UsernameNotFoundException("User not found."));
@@ -63,6 +65,7 @@ public class SecurityConfig {
                     "/auth",
                     "/sign-in",
                     "/sign-up",
+                    "/account-frozen",
                     "/forgot-password",
                     "/error",
                     "/css/**",
