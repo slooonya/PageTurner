@@ -1,5 +1,6 @@
 package com.slooonya.pageturner.admin;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.slooonya.pageturner.auth.AccountFrozenException;
 import com.slooonya.pageturner.user.User;
+import com.slooonya.pageturner.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,10 +21,17 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
 
     private final AdminService adminService;
+    private final UserService userService;
 
     @GetMapping("/account-frozen")
     public String getAccountFrozenPage() {
         return "account-frozen";
+    }
+
+    @GetMapping("/admin-profile")
+    public String profile(Model model) {
+        model.addAttribute("user", userService.getCurrentUser());
+        return "admin-profile";
     }
 
     @GetMapping("/admin-home")

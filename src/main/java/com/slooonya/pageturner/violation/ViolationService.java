@@ -14,6 +14,7 @@ import com.slooonya.pageturner.logs.ReadingLog;
 import com.slooonya.pageturner.logs.ReadingLogRepository;
 import com.slooonya.pageturner.user.User;
 import com.slooonya.pageturner.user.UserRepository;
+import com.slooonya.pageturner.user.UserService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class ViolationService {
 
     private final ReadingLogRepository readingLogRepository;
     private final ViolationRepository violationRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public List<ViolationLog> getAllLogs() {
         return violationRepository.findAllOrderByDateDesc();
@@ -37,7 +38,7 @@ public class ViolationService {
     }
 
     public ViolationLog getLogById(Long logId) {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
 
         requireAdmin(currentUser);
 
@@ -48,7 +49,7 @@ public class ViolationService {
 
     @Transactional
     public ViolationLog createLog(ViolationLogDto dto) {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
 
         ViolationLog log = new ViolationLog();
 
@@ -62,7 +63,7 @@ public class ViolationService {
 
     @Transactional
     public ViolationLog updateLog(Long logId, ViolationLogDto dto) {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
 
         requireAdmin(currentUser);
 
@@ -83,7 +84,7 @@ public class ViolationService {
 
     @Transactional
     public void restoreViolationLog(Long logId) {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
 
         requireAdmin(currentUser);
 
@@ -116,7 +117,7 @@ public class ViolationService {
         String query, LocalDate startDate, LocalDate endDate,
         Integer minTime, Integer maxTime, String sort) {
 
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
 
         requireAdmin(currentUser);
 
@@ -155,19 +156,6 @@ public class ViolationService {
         }
 
         return sortLogs(logs, sort);
-    }
-
-    private User getCurrentUser() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated())
-            throw new SecurityException("Unauthorized");
-
-        String email = authentication.getName();
-
-        return userRepository.findByEmail(email)
-            .orElseThrow(() -> new SecurityException("User not found"));
     }
 
     private void requireAdmin(User user) {
