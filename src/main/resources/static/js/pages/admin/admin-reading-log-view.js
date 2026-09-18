@@ -35,7 +35,6 @@ export function showLogDetails(log, onDelete) {
     $('detailTotalPages').textContent = log.totalPages ?? 'N/A';
     $('detailProgress').textContent = log.totalPages ? `${getProgress(log)}%` : 'N/A';
     $('detailNotes').textContent = log.notes || 'None';
-    $('deleteLogBtn').onclick = () => onDelete(log.id);
     openModal($('detailModal'));
 }
 

@@ -10,7 +10,7 @@
   <link rel="stylesheet" th:href="@{/css/global.css}">
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" th:href="@{/css/search-filter.css}">
-    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
     <link rel="stylesheet" th:href="@{/css/reading-log.css}">
     <link rel="stylesheet" th:href="@{/css/reading-log-form.css}">
     <link rel="stylesheet" th:href="@{/css/modal.css}">
@@ -66,72 +66,74 @@
     </ul>
   </nav>
 <main>
-  <header>
-    <div class="header-top">
-      <h1>Violation Logs</h1>
-    </div>
-  
-    <div class="toolbar">
-      <div class="search-box">
-        <input type="text" id="search" placeholder="Search by title, author or notes">
-        <button id="searchBtn" class="btn-icon">
-          <i class="fas fa-search"></i>
+  <div class="container">
+    <header>
+      <div class="header-top">
+        <h1>Violation Logs</h1>
+      </div>
+    
+      <div class="toolbar">
+        <div class="search-box">
+          <input type="text" id="search" placeholder="Search by title, author or notes">
+          <button id="searchBtn" class="btn-icon">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+
+        <div class="sort-options">
+          <label for="sort">Sort by:</label>
+          <select id="sort">
+            <option value="date-desc">Date (Newest First)</option>
+            <option value="date-asc">Date (Oldest First)</option>
+            <option value="time-desc">Time (Longest First)</option>
+            <option value="time-asc">Time (Shortest First)</option>
+            <option value="title-asc">Title (A-Z)</option>
+            <option value="title-desc">Title (Z-A)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-container">
+        <button class="filter-toggle" id="filterToggle">
+          <i class="fas fa-filter"></i> Filters
         </button>
-      </div>
-
-      <div class="sort-options">
-        <label for="sort">Sort by:</label>
-        <select id="sort">
-          <option value="date-desc">Date (Newest First)</option>
-          <option value="date-asc">Date (Oldest First)</option>
-          <option value="time-desc">Time (Longest First)</option>
-          <option value="time-asc">Time (Shortest First)</option>
-          <option value="title-asc">Title (A-Z)</option>
-          <option value="title-desc">Title (Z-A)</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="filter-container">
-      <button class="filter-toggle" id="filterToggle">
-        <i class="fas fa-filter"></i> Filters
-      </button>
-      
-      <div class="filter-controls" id="filterControls">
-        <div class="filter-group">
-            <label for="startDate">From</label>
-            <input type="date" id="startDate">
-          </div>
-          
+        
+        <div class="filter-controls" id="filterControls">
           <div class="filter-group">
-            <label for="endDate">To</label>
-            <input type="date" id="endDate">
-          </div>
-          
-          <div class="filter-group">
-            <label for="minTime">Min mins</label>
-            <input type="number" id="minTime" min="0" placeholder="0">
-          </div>
-          
-          <div class="filter-group">
-            <label for="maxTime">Max mins</label>
-            <input type="number" id="maxTime" min="0" placeholder="0">
-          </div>
-          
-          <div class="filter-actions">
-            <button id="resetFilters" class="btn small transparent">
-              <i class="fas fa-undo"></i> Reset
-            </button>
+              <label for="startDate">From</label>
+              <input type="date" id="startDate">
+            </div>
+            
+            <div class="filter-group">
+              <label for="endDate">To</label>
+              <input type="date" id="endDate">
+            </div>
+            
+            <div class="filter-group">
+              <label for="minTime">Min mins</label>
+              <input type="number" id="minTime" min="0" placeholder="0">
+            </div>
+            
+            <div class="filter-group">
+              <label for="maxTime">Max mins</label>
+              <input type="number" id="maxTime" min="0" placeholder="0">
+            </div>
+            
+            <div class="filter-actions">
+              <button id="resetFilters" class="btn small transparent">
+                <i class="fas fa-undo"></i> Reset
+              </button>
 
-            <button id="applyFilters" class="btn small">
-              <i class="fas fa-check"></i> Apply
-            </button>
-          </div>
+              <button id="applyFilters" class="btn small">
+                <i class="fas fa-check"></i> Apply
+              </button>
+            </div>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <div id="logs" class="logs-grid"></div>
+    <div id="logs" class="logs-grid"></div>
+  </div>
 
   <div class="modal" id="formModal" hidden>
     <div class="modal-content">

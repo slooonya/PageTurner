@@ -90,7 +90,7 @@ export function openConfirmationModal({
 
     if (confirmButton) {
         confirmButton.innerHTML = `
-            <i class="fas fa-trash"></i> ${confirmText}
+            ${confirmText}
         `;
 
         confirmButton.onclick = null;

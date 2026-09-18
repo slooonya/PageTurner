@@ -1,19 +1,15 @@
 package com.slooonya.pageturner.violation;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.slooonya.pageturner.logs.ReadingLog;
 import com.slooonya.pageturner.logs.ReadingLogRepository;
 import com.slooonya.pageturner.user.User;
-import com.slooonya.pageturner.user.UserRepository;
 import com.slooonya.pageturner.user.UserService;
 
 import jakarta.transaction.Transactional;

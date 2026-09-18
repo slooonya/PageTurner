@@ -1,6 +1,5 @@
 package com.slooonya.pageturner.admin;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -57,7 +56,7 @@ public class AdminController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
 
-        return "administration/admin-user-list";
+        return "user-list";
     }
 
     @PostMapping("/user-list/freeze")

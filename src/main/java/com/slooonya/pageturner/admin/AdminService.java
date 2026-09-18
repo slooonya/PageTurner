@@ -52,6 +52,9 @@ public class AdminService {
     @Transactional
     public void changeUsersRole(List<Long> userIds, String roleName) {
 
+        roleRepository.findAll()
+            .forEach(role -> System.out.println(role.getName()));;
+
         Role role = roleRepository.findByName(roleName)
             .orElseThrow(() ->
                 new IllegalArgumentException("Role not found: " + roleName));

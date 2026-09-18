@@ -1,0 +1,112 @@
+.user-management-form {
+  width: 100%;
+}
+
+.user-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: white;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th {
+  padding: 1rem;
+  background: var(--wine);
+  color: white;
+  text-align: left;
+}
+
+.user-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.user-table tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+.table-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.checkbox-cell {
+  width: 70px;
+  text-align: center;
+}
+
+.checkbox-cell input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.status-cell,
+.role-cell {
+  white-space: nowrap;
+}
+
+.status-badge,
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.status-badge {
+  padding: 0.3rem 0.65rem;
+}
+
+.status-badge.frozen {
+  color: #b42318;
+  background: rgba(217,83,79,.12);
+}
+
+.status-badge.active {
+  color: #18794e;
+  background: rgba(92,184,92,.12);
+}
+
+.status-badge.flagged {
+  color: #a15c00;
+  background: rgba(240,173,78,.16);
+}
+
+.role-item {
+  display:inline-block;
+  margin-right:.5rem;
+}
+
+.role-badge.admin {
+  color: var(--primary-color);
+}
+
+.role-badge.moderator {
+  color:#6b46c1;
+}
+
+.role-badge.user {
+  color:var(--text-muted);
+}
+
+@media(max-width:768px){
+  .user-table{
+    min-width:680px;
+    font-size:.9rem;
+  }
+
+  .user-table th,
+  .user-table td{
+    padding:.65rem;
+  }
+}

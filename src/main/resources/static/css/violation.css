@@ -1,7 +1,3 @@
-.violation-logs {
-  margin-top: 2rem;
-}
-
 .violation-badge {
   display: inline-flex;
   gap: 0.4rem;
@@ -10,14 +6,6 @@
   color: var(--wine);
   font-size: 0.875rem;
   font-weight: 600;
-}
-
-.violation-log-card .log-card-back {
-  background: #8b3131;
-}
-
-.violation-log-card .restore-btn {
-  color: #8b3131;
 }
 
 .violation-empty-state {
