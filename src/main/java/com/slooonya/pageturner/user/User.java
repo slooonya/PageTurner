@@ -76,6 +76,9 @@ public class User {
     @Column(name = "isFrozen", nullable=false)
     private boolean isFrozen = false;
 
+    @Column(name= "timesFlagged", nullable=false)
+    private int timesFlagged = 0;
+
     public boolean isPasswordMatch() {
         return password != null && password.equals(confirmPassword);
     }
@@ -86,5 +89,13 @@ public class User {
     
     public void unfreezeUser() {
         this.isFrozen = false;
+    }
+
+    public void flag(){
+        this.timesFlagged++;
+    }
+
+    public void unflag(){
+        this.timesFlagged--;
     }
 }

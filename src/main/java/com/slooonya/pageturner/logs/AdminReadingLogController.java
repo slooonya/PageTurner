@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -42,8 +43,11 @@ public class AdminReadingLogController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
-        readingLogService.deleteForAdmin(id);
+    public ResponseEntity<Void> delete(
+        @PathVariable long id,
+        @RequestParam String reason
+    ) {
+        readingLogService.deleteForAdmin(id, reason);
         return ResponseEntity.noContent().build();
     }
 }

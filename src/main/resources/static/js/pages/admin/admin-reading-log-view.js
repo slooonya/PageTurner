@@ -1,4 +1,4 @@
-import { openModal } from './admin-modal.js';
+import { openModal } from '../home/modal.js';
 
 const $ = (id) => document.getElementById(id);
 

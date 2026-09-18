@@ -6,7 +6,7 @@ import {
     deleteReadingLog
 } from './reading-log-api.js';
 
-import { filterAndSort } from './reading-log-filters.js';
+import { filterAndSort } from '../shared/reading-log-filters.js';
 import * as view from './reading-log-view.js';
 import * as form from './reading-log-form.js';
 import { toggleReadingHistory, resetHistory, refreshCurrentHistory } from './reading-log-history.js';

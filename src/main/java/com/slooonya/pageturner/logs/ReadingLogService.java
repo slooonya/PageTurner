@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.slooonya.pageturner.user.User;
 import com.slooonya.pageturner.user.UserRepository;
+import com.slooonya.pageturner.violation.ViolationService;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -23,6 +24,7 @@ public class ReadingLogService {
 
     private final ReadingLogRepository readingLogRepository;
     private final UserRepository userRepository;
+    private final ViolationService violationService;
 
     public List<ReadingLog> findAll(Principal principal) {
         return readingLogRepository.findByUserIdOrderByDateDescIdDesc(currentUser(principal).getId());
@@ -116,8 +118,10 @@ public class ReadingLogService {
     }
 
     @Transactional
-    public void deleteForAdmin(long id) {
-        deleteLog(findByIdForAdmin(id));
+    public void deleteForAdmin(long id, String reason) {
+        ReadingLog log = findByIdForAdmin(id);
+        violationService.recordViolation(log, reason);
+        deleteLog(log);
     }
 
     private void deleteLog(ReadingLog log) {

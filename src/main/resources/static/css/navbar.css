@@ -17,7 +17,8 @@ main {
   width: 16rem; 
 }
 
-.navbar-list { 
+.navbar-list,
+.navbar-nav {
   display: flex; 
   flex-direction: column; 
   height: 100%; 
@@ -89,7 +90,8 @@ main {
     height: 5rem; 
   }
 
-  .navbar-list { 
+  .navbar-list,
+  .navbar-nav {
     flex-direction: row; 
   }
 
@@ -108,5 +110,10 @@ main {
 
   .nav-link { 
     justify-content: center; 
+  }
+
+  .nav-link i {
+    min-width: 0;
+    margin: 0;
   }
 }

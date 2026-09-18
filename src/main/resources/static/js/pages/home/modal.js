@@ -35,10 +35,10 @@ export function closeAllModals() {
 
 export function bindModalEvents() {
 
-    document.querySelectorAll('[data-modal-close]').forEach((button) => {
+    document.querySelectorAll('[data-modal-close], .modal-close').forEach((button) => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
-            closeAllModals();
+            closeModal(button.closest('.modal, .progress-warning-modal'));
         });
     });
 
@@ -117,6 +117,7 @@ export function openConfirmationModal({
 
     if (cancelButton) {
         cancelButton.textContent = cancelText;
+        cancelButton.onclick = () => closeModal(modal);
     }
 
     openModal(modal);

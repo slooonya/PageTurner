@@ -1,23 +1,36 @@
-import { getAdminReadingLogs, getAdminReadingLog, updateAdminReadingLog, deleteAdminReadingLog } from './admin-reading-log-api.js';
+import {
+    getViolationLogs,
+    getViolationLog,
+    restoreViolationLog,
+    updateViolationLog
+} from './violation-log-api.js';
+
 import { filterAndSort } from '../shared/reading-log-filters.js';
-import * as form from './admin-reading-log-form.js';
-import * as view from './admin-reading-log-view.js';
+import * as form from './violation-log-form.js';
+import * as view from './violation-log-view.js';
 import { bindModalEvents, closeModal, openConfirmationModal } from '../home/modal.js';
 import { showToast } from '../home/toast.js';
 
+
 const $ = (id) => document.getElementById(id);
-const state = { logs: [] };
+
+const state = {
+    logs: []
+};
+
 
 async function loadLogs() {
     view.showLoading();
+
     try {
-        state.logs = await getAdminReadingLogs();
+        state.logs = await getViolationLogs();
         render();
     } catch (error) {
-        console.error('Failed to load admin reading logs:', error);
+        console.error('Failed to load violation logs:', error);
         view.showLoadError(error.message);
     }
 }
+
 
 function getCurrentFilters() {
     return {
@@ -30,107 +43,122 @@ function getCurrentFilters() {
     };
 }
 
+
 function render() {
     view.renderEntries(filterAndSort(state.logs, getCurrentFilters()), {
         onView: showLogDetails,
         onEdit: editLog,
-        onDelete: confirmDelete
+        onRestore: confirmRestore
     });
 }
 
+
 async function showLogDetails(id) {
     try {
-        const log = await getAdminReadingLog(id);
-        view.showLogDetails(log, confirmDelete);
+        view.showLogDetails(await getViolationLog(id));
     } catch (error) {
-        console.error('Failed to load log details:', error);
-        showToast(error.message || 'Failed to load reading log details.', 'error');
+        console.error('Failed to load violation log details:', error);
+        showToast(error.message || 'Failed to load violation log details.', 'error');
     }
 }
+
 
 async function editLog(id) {
     try {
-        form.populateForm(await getAdminReadingLog(id));
+        form.populateForm(await getViolationLog(id));
         view.openEditForm();
     } catch (error) {
-        console.error('Failed to load reading log for editing:', error);
-        showToast(error.message || 'Failed to load reading log.', 'error');
+        console.error('Failed to load violation log for editing:', error);
+        showToast(error.message || 'Failed to load violation log.', 'error');
     }
 }
 
+
 async function handleFormSubmit(event) {
     event.preventDefault();
+
     if (!form.validateForm()) return;
 
     const id = $('logId').value;
     if (!id) {
-        showToast('Select a reading log to edit.', 'error');
+        showToast('Select a violation log to edit.', 'error');
         return;
     }
 
     try {
-        await updateAdminReadingLog(id, form.getFormData());
+        await updateViolationLog(id, form.getFormData());
         closeModal($('formModal'));
         await loadLogs();
-        showToast('Reading log updated successfully.', 'success');
+        showToast('Violation log updated successfully.', 'success');
     } catch (error) {
-        console.error('Failed to update reading log:', error);
+        console.error('Failed to update violation log:', error);
         handleSaveError(error);
     }
 }
 
+
 function handleSaveError(error) {
-    const message = error.message || 'Failed to update reading log.';
+    const message = error.message || 'Failed to update violation log.';
+
     if (message.startsWith('PAGE_COUNT_MISMATCH:')) {
         const [, existingPages, newPages] = message.split(':');
         form.showPageMismatchError(existingPages, newPages);
         return;
     }
+
     showToast(message, 'error');
 }
 
-function confirmDelete(id) {
+
+function confirmRestore(id) {
     openConfirmationModal({
-        title: 'Delete Reading Log',
-        message: 'Are you sure you want to delete this reading log?',
-        confirmText: 'Delete Log',
-        onConfirm: () => deleteLog(id)
+        title: 'Restore Reading Log',
+        message: 'Are you sure you want to restore this reading log?',
+        confirmText: 'Restore Log',
+        onConfirm: () => restoreLog(id)
     });
 }
 
-async function deleteLog(id) {
+
+async function restoreLog(id) {
     try {
-        await deleteAdminReadingLog(id);
+        await restoreViolationLog(id);
         closeModal($('detailModal'));
         await loadLogs();
-        showToast('Reading log deleted successfully.', 'success');
+        showToast('Reading log restored successfully.', 'success');
     } catch (error) {
-        console.error('Failed to delete reading log:', error);
-        showToast(error.message || 'Failed to delete reading log.', 'error');
+        console.error('Failed to restore reading log:', error);
+        showToast(error.message || 'Failed to restore reading log.', 'error');
     }
 }
+
 
 function resetFilters() {
     ['search', 'startDate', 'endDate', 'minTime', 'maxTime'].forEach((id) => {
         const element = $(id);
         if (element) element.value = '';
     });
+
     if ($('sort')) $('sort').value = 'date-desc';
     render();
 }
+
 
 function toggleFilters() {
     $('filterControls')?.classList.toggle('expanded');
     $('filterToggle')?.classList.toggle('active');
 }
 
+
 function validateTimeInput(event) {
     if (Number(event.target.value) < 0) event.target.value = 0;
 }
 
+
 function bindEvents() {
     $('logForm')?.addEventListener('submit', handleFormSubmit);
     $('cancelBtn')?.addEventListener('click', () => closeModal($('formModal')));
+    $('AllLogBtn')?.addEventListener('click', loadLogs);
     $('search')?.addEventListener('input', render);
     $('searchBtn')?.addEventListener('click', render);
     $('sort')?.addEventListener('change', render);
@@ -140,6 +168,7 @@ function bindEvents() {
     $('minTime')?.addEventListener('input', validateTimeInput);
     $('maxTime')?.addEventListener('input', validateTimeInput);
 }
+
 
 bindEvents();
 bindModalEvents();
