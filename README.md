@@ -50,7 +50,7 @@
 * Promote or demote users
 * Ban or unban accounts
 
-<img width="1409" height="1916" alt="Screenshots" src="https://github.com/user-attachments/assets/a19d9bb1-e669-4e93-ab4c-01913d1e7d1f" />
+<img width="1409" height="1916" alt="Screenshots" src="https://github.com/user-attachments/assets/b8e28dcb-c249-4ddb-812e-2bc7bb07c138" />
 
 ### Built With
 
@@ -61,7 +61,7 @@
 
 <!-- GETTING STARTED -->
 ## Getting Started
-To get a local copy up and running follow these simple example steps.
+Follow the steps below to get a local copy up and running.
 
 ### Prerequisites
 Make sure you have the following installed on your system:
@@ -95,14 +95,42 @@ git clone https://github.com/slooonya/daily-reading-tracker.git
  cd daily-reading-tracker
  ```
 
-3. Configure the environment variables for the database:
-   - Open src/main/resources/application.properties file <br>
-   - Update the following parameters to match your database configuration:
+3. Configure the environment variables:
+   - Create application.properties file <br>
+   - Replace the placeholders below with values for your local environment:
 
 ```bash
+# Database configuration
 spring.datasource.url=jdbc:mysql://<DB_HOST>:<DB_PORT>/<DB_NAME>
 spring.datasource.username=<DB_USERNAME>
 spring.datasource.password=<DB_PASSWORD>
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database=mysql
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.session.jdbc.initialize-schema=always
+
+# Application configuration
+spring.application.name=pageturner
+
+# Directory where uploaded files are stored
+app.uploads.dir=<UPLOAD_DIRECTORY>
+
+# Public URL used to access uploaded files
+app.uploads.host=http://localhost:8080/uploads/
+
+# Administrator registration (Code that will be required when registering an administrator account)
+app.admin.registration-code=<ADMIN_REGISTRATION_CODE>
+
+# Email configuration
+spring.mail.host=<SMTP_HOST>
+spring.mail.port=<SMTP_PORT>
+spring.mail.username=<SMTP_USERNAME>
+spring.mail.password=<SMTP_PASSWORD>
+spring.mail.protocol=smtp
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.ssl.enable=true
+spring.mail.properties.mail.smtp.ssl.trust=<SMTP_HOST>
  ```
    
 4. Build the project using Maven:
