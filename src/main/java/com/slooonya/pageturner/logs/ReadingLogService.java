@@ -63,53 +63,20 @@ public class ReadingLogService {
     public ReadingLog update(long id, @Valid ReadingLogRequest request, Principal principal) {
         validatePages(request);
 
-        ReadingLog currentLog = ownedLog(id, principal);
+        ReadingLog log = ownedLog(id, principal);
+        apply(log, request);
 
-        return createUpdatedVersion(currentLog, request);
+        return readingLogRepository.save(log);
     }
 
     @Transactional
     public ReadingLog updateForAdmin(long id, @Valid ReadingLogRequest request) {
         validatePages(request);
 
-        return createUpdatedVersion(findByIdForAdmin(id), request);
-    }
+        ReadingLog log = findByIdForAdmin(id);
+        apply(log, request);
 
-    private ReadingLog createUpdatedVersion(ReadingLog currentLog, ReadingLogRequest request) {
-
-        String title = request.title().trim();
-        String author = request.author().trim();
-
-        List<ReadingLog> existingVersions = readingLogRepository
-            .findByUserIdAndTitleIgnoreCaseAndAuthorIgnoreCase(
-                currentLog.getUser().getId(), title, author
-            );
-
-        Integer existingTotalPages = existingVersions.stream()
-                .filter(log -> !log.getId().equals(currentLog.getId()))
-                .map(ReadingLog::getTotalPages)
-                .filter(totalPages -> totalPages != null)
-                .findFirst()
-                .orElse(null);
-
-        if (existingTotalPages != null && !existingTotalPages.equals(request.totalPages())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "PAGE_COUNT_MISMATCH:" + existingTotalPages + ":" + request.totalPages()
-            );
-        }
-
-        ReadingLog newVersion = new ReadingLog();
-
-        newVersion.setUser(currentLog.getUser());
-        apply(newVersion, request);
-
-        newVersion.setPreviousVersion(currentLog);
-        newVersion.setCurrent(true);
-
-        currentLog.setCurrent(false);
-        readingLogRepository.save(currentLog);
-
-        return readingLogRepository.save(newVersion);
+        return readingLogRepository.save(log);
     }
 
     @Transactional

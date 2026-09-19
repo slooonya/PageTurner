@@ -10,9 +10,13 @@ public class CustomUserDetails extends org.springframework.security.core.userdet
 
     public CustomUserDetails(
         String username, String password,
-        Collection<? extends GrantedAuthority> authorities, boolean frozen, boolean verified
+        Collection<? extends GrantedAuthority> authorities,
+        boolean frozen, boolean verified
     ) {
-        super(username, password, verified, true, true, !frozen, authorities);
+        super(username, password, verified,  
+            true, true, true,     
+            authorities
+        );
 
         this.frozen = frozen;
     }
