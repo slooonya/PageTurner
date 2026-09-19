@@ -3,6 +3,7 @@ package com.slooonya.pageturner.auth;
 import java.io.IOException;
 
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.slooonya.pageturner.security.SecurityService;
 import com.slooonya.pageturner.user.User;
@@ -60,8 +62,8 @@ public class AuthController {
         }
 
         try {
-            authService.register(user, avatar, adminCode);
-            return "redirect:/auth?registered";
+            User savedUser = authService.register(user, avatar, adminCode);
+            return "redirect:/verification-pending?email=" + savedUser.getEmail();
         } catch (IOException | AuthService.RegistrationException exception) {
             result.reject("registration", exception.getMessage());
             model.addAttribute("containerClass", "sign-up-mode");
@@ -71,10 +73,13 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     public String login(@RequestParam String username, @RequestParam String password,
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         try {
             securityService.login(username, password, request, response);
             return "redirect:/home";
+        } catch (DisabledException e) {
+            redirectAttributes.addAttribute("email", username);
+            return "redirect:/verification-pending";
         } catch (AccountFrozenException exception) {
             return "redirect:/account-frozen";
         } catch (BadCredentialsException exception) {

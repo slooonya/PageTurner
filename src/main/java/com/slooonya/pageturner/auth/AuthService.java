@@ -25,12 +25,13 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final FileStorageService fileStorageService;
     private final RoleRepository roleRepository;
+    private final VerificationTokenService verificationTokenService;
 
     @Value("${app.admin.registration-code}")
     private String adminRegistrationCode;
 
     @Transactional
-    public void register(User user, MultipartFile avatar, String adminCode) throws IOException {
+    public User register(User user, MultipartFile avatar, String adminCode) throws IOException {
         user.setEmail(user.getEmail().trim().toLowerCase());
         user.setUsername(user.getUsername().trim());
 
@@ -64,7 +65,11 @@ public class AuthService {
         user.setRoles(new HashSet<>());
         user.getRoles().add(role);
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        verificationTokenService.createVerificationForUser(savedUser, "http://localhost:8080/verify-email");       
+
+        return savedUser;
     }
 
     public void validateRegistration(User user, MultipartFile avatar, BindingResult result) {
@@ -96,6 +101,16 @@ public class AuthService {
     public static class RegistrationException extends RuntimeException {
         public RegistrationException(String message) {
             super(message);
+        }
+
+        public RegistrationException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
+     public class EmailVerificationException extends RuntimeException {
+        public EmailVerificationException(String message, Throwable cause) {
+            super(message, cause);
         }
     }
 }

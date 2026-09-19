@@ -31,7 +31,8 @@ public class SecurityConfig {
                 user.getRoles().stream()
                     .map(role -> new SimpleGrantedAuthority(role.getName()))
                     .toList(),
-                user.isFrozen()
+                user.isFrozen(),
+                user.isVerified()
             ))
             .orElseThrow(() ->
                 new UsernameNotFoundException("User not found."));
@@ -67,6 +68,10 @@ public class SecurityConfig {
                     "/sign-up",
                     "/account-frozen",
                     "/forgot-password",
+                    "/verify-email",
+                    "/verification-pending",
+                    "/verification-error",
+                    "/resend-verification",
                     "/error",
                     "/css/**",
                     "/js/**",

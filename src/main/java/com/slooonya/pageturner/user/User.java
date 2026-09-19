@@ -4,8 +4,10 @@ import java.util.Set;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.slooonya.pageturner.auth.VerificationToken;
 import com.slooonya.pageturner.role.Role;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
@@ -78,6 +81,12 @@ public class User {
 
     @Column(name= "timesFlagged", nullable=false)
     private int timesFlagged = 0;
+
+    @Column(nullable = false)
+    private boolean isVerified = false;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private VerificationToken verificationToken;
 
     public boolean isPasswordMatch() {
         return password != null && password.equals(confirmPassword);

@@ -28,7 +28,7 @@
 
             <th:block th:if="${error == 'Link already expired, resend link'}">
               <form th:action="@{/forgot-password/resend}" method="post" class="resend-form">
-                <input type="hidden" name="email" th:value="${param.email[0]}">
+                <input type="hidden" name="email" th:text="${email}">
                 <button type="submit" class="btn resend-btn">
                   <i class="fas fa-redo"></i> Resend Reset Link
                 </button>

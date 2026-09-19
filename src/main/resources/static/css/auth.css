@@ -151,7 +151,7 @@
 
 .account-link { 
   color: var(--wine); 
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .account-link:hover { 
@@ -307,6 +307,10 @@
 }
 .auth-container.sign-up-mode .right-panel .content { 
   transform: translateX(0); 
+}
+
+.back-action {
+  margin-top: 1rem;
 }
 
 @media (max-width: 870px) {
