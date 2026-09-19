@@ -2,3 +2,111 @@
   padding-top: 1rem;
   color: var(--wine);
 }
+
+.log-card {
+  width: 100%;
+  padding: 1.5rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.log-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+  transform: translateY(-1px);
+}
+
+.log-book-title {
+  margin: 0;
+  color: var(--wine);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.log-author {
+  margin: 0.25rem 0 0;
+  color: #777;
+  font-size: 1rem;
+}
+
+.log-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.log-meta span {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.log-meta i {
+  color: var(--wine);
+}
+
+.log-notes {
+  margin-top: 1rem;
+}
+
+.notes-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #555;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.log-notes p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.log-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+}
+
+.details-btn {
+  background: var(--wine);
+}
+
+.edit-btn {
+  background: #d88932;
+}
+
+.delete-btn {
+  background: #c0392b;
+}
+
+@media (max-width: 600px) {
+    .log-card {
+      padding: 1.2rem;
+    }
+
+    .log-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .log-actions {
+      flex-direction: column;
+    }
+
+    .log-btn {
+      width: 100%;
+    }
+}

@@ -27,7 +27,7 @@ export const getAdminReadingLogs = () => request();
 export const getAdminReadingLog = (id) => request(`/${id}`);
 export const updateAdminReadingLog = (id, log) => 
     request(`/${id}`, { 
-        method: 'PUT', 
+        method: 'PATCH', 
         body: JSON.stringify(log) 
     });
 export const deleteAdminReadingLog = (id, reason) =>

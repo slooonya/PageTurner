@@ -42,42 +42,57 @@ export function openEditForm() {
     openModal($('formModal'));
 }
 
+
 function createLogCard(log, handlers) {
     const progress = getProgress(log);
     const card = document.createElement('div');
     card.className = 'log-card';
     card.innerHTML = `
-        <div class="log-card-inner">
-            <div class="log-card-front">
-                <h3>${escapeHtml(log.title)}</h3>
-                <p>by ${escapeHtml(log.author)}</p>
-                ${log.totalPages ? `
-                    <div class="log-progress">
-                        <div class="log-progress-bar" style="width: ${progress}%"></div>
-                    </div>
-                    <p>Progress: ${progress}% (${log.currentPage}/${log.totalPages})</p>` : ''}
-                <div class="log-meta">
-                    <span>${escapeHtml(log.userName || 'Unknown User')}</span>
-                    <span>${formatDate(log.date)}</span>
-                </div>
+            <div class="log-book">
+                <h3 class="log-book-title">${escapeHtml(log.title)}</h3>
+                <p class="log-author"><em>by ${escapeHtml(log.author)}</em></p>
             </div>
-            <div class="log-card-back">
-                <div>
-                    <h3>${escapeHtml(log.title)}</h3>
-                    <p>by ${escapeHtml(log.author)}</p>
-                    <p>User: ${escapeHtml(log.userName || 'Unknown User')}</p>
-                    <p>Date: ${formatDate(log.date)}</p>
-                    <p>Time: ${log.timeSpent} min</p>
-                    ${log.notes ? `<p>${escapeHtml(truncate(log.notes, 50))}</p>` : ''}
+
+           ${log.totalPages ? `
+                <div class="log-progress">
+                    <div class="log-progress-bar" style="width: ${progress}%"></div>
                 </div>
-                <div class="log-actions">
-                    <button class="view-btn btn"><i class="fas fa-eye"></i> Details</button>
-                    <button class="edit-btn btn"><i class="fas fa-edit"></i> Edit</button>
-                    <button class="delete-btn btn secondary"><i class="fas fa-trash"></i> Delete</button>
-                </div>
+                <p>${progress}% (${log.currentPage}/${log.totalPages})</p>` : ''}
+
+            <div class="log-meta">
+                <span>
+                    <i class="fas fa-user"></i>
+                    ${escapeHtml(log.userName || 'Unknown User')}
+                </span>
+
+                <span>
+                    <i class="fas fa-calendar"></i>
+                    ${formatDate(log.date)}
+                </span>
             </div>
-        </div>`;
-    card.querySelector('.view-btn').addEventListener('click', () => handlers.onView?.(log.id));
+
+            <div class="log-notes">
+                <span class="notes-label">Notes</span>
+                ${log.notes ? `<p>${escapeHtml(truncate(log.notes, 50))}</p>` : ''}
+            </div>
+
+            <div class="log-actions">
+                <button class="btn details-btn">
+                    <i class="fas fa-eye"></i>
+                    Details
+                </button>
+
+                <button class="btn edit-btn">
+                    <i class="fas fa-pen"></i>
+                    Edit
+                </button>
+
+                <button class="btn delete-btn">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
+            </div>`;
+    card.querySelector('.details-btn').addEventListener('click', () => handlers.onView?.(log.id));
     card.querySelector('.edit-btn').addEventListener('click', () => handlers.onEdit?.(log.id));
     card.querySelector('.delete-btn').addEventListener('click', () => handlers.onDelete?.(log.id));
     return card;

@@ -58,45 +58,60 @@ function createLogEntry(log, handlers) {
     const card = document.createElement('article');
     card.className = 'log-card violation-log-card';
     card.innerHTML = `
-        <div class="log-card-inner">
-            <div class="log-card-front">
+            <div class="log-book">
                 <h3>${escapeHtml(log.title || 'Untitled')}</h3>
                 <p>by ${escapeHtml(log.author || 'Unknown')}</p>
-                <span class="violation-badge"><i class="fas fa-exclamation-triangle"></i> Violation</span>
-                ${log.totalPages ? `<div class="log-progress"><div class="log-progress-bar" style="width: ${progress}%"></div></div><p>Progress: ${progress}% (${log.currentPage}/${log.totalPages})</p>` : ''}
-                <div class="log-meta"><span>${escapeHtml(log.username || 'Unknown')}</span><span>${formatDate(log.date)}</span></div>
             </div>
-            <div class="log-card-back">
-                <div>
-                    <h3>${escapeHtml(log.title || 'Untitled')}</h3>
-                    <p>${escapeHtml(log.reason || 'Violation of content policy')}</p>
-                    <p>User: ${escapeHtml(log.username || 'Unknown')}</p>
-                    <p>Time: ${log.timeSpent} min</p>
-                    ${log.notes ? `<p>${escapeHtml(truncate(log.notes, 50))}</p>` : ''}
-                </div>
-                <div class="log-actions">
-                    <button class="view-btn btn">Details</button>
-                    <button class="edit-btn btn">Edit</button>
-                    <button class="restore-btn btn secondary">Restore</button>
-                </div>
-            </div>
-        </div>`;
 
-    card.querySelector('.view-btn').addEventListener('click', () => handlers.onView?.(log.id));
+            <span class="violation-badge">
+                <i class="fas fa-exclamation-triangle"></i> Violation
+            </span>
+
+            ${log.totalPages ? `
+                <div class="log-progress">
+                    <div class="log-progress-bar" style="width: ${progress}%"></div>
+                </div>
+                <p>${progress}% (${log.currentPage}/${log.totalPages})</p>` : ''}
+
+            <div class="log-meta">
+                <span>
+                    <i class="fas fa-user"></i>
+                    ${escapeHtml(log.userName || 'Unknown User')}
+                </span>
+
+                <span>
+                    <i class="fas fa-calendar"></i>
+                    ${formatDate(log.date)}
+                </span>
+            </div>
+
+            <div class="log-notes">
+                <span class="notes-label">Notes</span>
+                ${log.notes ? `<p>${escapeHtml(truncate(log.notes, 50))}</p>` : ''}
+            </div>
+
+            <div class="log-actions">
+                <button class="btn details-btn">
+                    <i class="fas fa-eye"></i>
+                    Details
+                </button>
+
+                <button class="btn edit-btn">
+                    <i class="fas fa-pen"></i>
+                    Edit
+                </button>
+
+                <button class="btn delete-btn">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
+            </div>`;
+
+    card.querySelector('.details-btn').addEventListener('click', () => handlers.onView?.(log.id));
     card.querySelector('.edit-btn').addEventListener('click', () => handlers.onEdit?.(log.id));
-    card.querySelector('.restore-btn').addEventListener('click', () => handlers.onRestore?.(log.id));
+    card.querySelector('.delete-btn').addEventListener('click', () => handlers.onRestore?.(log.id));
 
     return card;
-}
-
-
-function createAction(label, className, onClick) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = className;
-    button.textContent = label;
-    button.addEventListener('click', onClick);
-    return button;
 }
 
 

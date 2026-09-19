@@ -34,7 +34,7 @@ export const createReadingLog =
 
 export const updateReadingLog = 
     (id, log) => request(`/${id}`, { 
-        method: 'PUT', 
+        method: 'PATCH', 
         body: JSON.stringify(log) 
     });
 

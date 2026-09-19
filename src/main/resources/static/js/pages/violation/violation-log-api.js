@@ -33,7 +33,7 @@ export const getViolationLogs = () => request();
 export const getViolationLog = (id) => request(`/${id}`);
 
 export const updateViolationLog = (id, log) => request(`/${id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     body: JSON.stringify(log)
 });
 
