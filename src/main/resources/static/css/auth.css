@@ -313,6 +313,54 @@
   margin-top: 1rem;
 }
 
+.password-requirements {
+  background: white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  margin: 0.5rem auto;
+  width: fit-content;
+  min-width: 240px;
+}
+
+.password-requirements p {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.password-requirements ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.password-requirements li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: left;
+  color: #dc3545;
+  transition: color 0.2s ease;
+}
+
+.password-requirements .requirement-icon {
+  width: 1rem;
+  text-align: center;
+  color: #dc3545;
+  transition: color 0.2s ease;
+}
+
+.password-requirements li.valid {
+  color: #198754;
+}
+
+.password-requirements li.valid .requirement-icon {
+  color: #198754;
+}
+
 @media (max-width: 870px) {
   .auth-forms, 
   .auth-container.sign-up-mode .auth-forms { 

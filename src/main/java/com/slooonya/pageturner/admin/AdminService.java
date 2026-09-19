@@ -9,6 +9,7 @@ import com.slooonya.pageturner.role.Role;
 import com.slooonya.pageturner.role.RoleRepository;
 import com.slooonya.pageturner.user.User;
 import com.slooonya.pageturner.user.UserRepository;
+import com.slooonya.pageturner.utils.EmailService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    // private final EmailService emailService;
+    private final EmailService emailService;
 
     public List<User> getUsersSortedBy(String sortField, String sortDirection) {
         Sort sort = Sort.by(
@@ -36,7 +37,7 @@ public class AdminService {
 
         for (User user : users) {
             user.freezeUser();
-            // emailService.sendAccountFrozenEmail(user);
+            emailService.sendAccountFrozenEmail(user);
         }
     }
 

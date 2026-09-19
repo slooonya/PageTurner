@@ -10,8 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.slooonya.pageturner.logs.ReadingLog;
 import com.slooonya.pageturner.user.User;
+import com.slooonya.pageturner.violation.ViolationLog;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -35,7 +35,7 @@ public class EmailService {
             <html>
               <body>
                 <p>Dear %s,</p>
-                <p>Thank you for registering with Daily Reading Tracker!</p>
+                <p>Thank you for registering with PageTurner!</p>
                 <p>Please verify your email address by clicking the link below:</p>
                 <p><a href="%s">Verify Email</a></p>
                 <p>Or copy this URL to your browser: %s</p>
@@ -103,7 +103,7 @@ public class EmailService {
                 <p>We are sorry to inform you that we have to freeze your account for a week.</p>
                 <p>Please consider taking your time reading our policy and try not to violate it again.</p>
                 <p>Your account will be unfrozen by: %s</p>
-                <p>Thank you for using Daily Reading Tracker!</p>
+                <p>Thank you for using PageTurner!</p>
                 <p>If this isn't your account, please ignore this email.</p>
                 <p>Best regards,<br>%s Team</p>
               </body>
@@ -120,7 +120,7 @@ public class EmailService {
         }
     }
 
-    public void sendViolationNotificationEmail(String userEmail, ReadingLog log) {
+    public void sendViolationNotificationEmail(String userEmail, ViolationLog log) {
         try {
             String subject = "Notification: Your Reading Log Has Been Flagged";
             

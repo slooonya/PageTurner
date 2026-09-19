@@ -11,6 +11,7 @@ import com.slooonya.pageturner.logs.ReadingLog;
 import com.slooonya.pageturner.logs.ReadingLogRepository;
 import com.slooonya.pageturner.user.User;
 import com.slooonya.pageturner.user.UserService;
+import com.slooonya.pageturner.utils.EmailService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class ViolationService {
     private final ReadingLogRepository readingLogRepository;
     private final ViolationRepository violationRepository;
     private final UserService userService;
+    private final EmailService emailService;
 
     public List<ViolationLog> getAllLogs() {
         return violationRepository.findAllOrderByDateDesc();
@@ -53,6 +55,8 @@ public class ViolationService {
         log.setTitle(dto.getTitle());
         log.setAuthor(dto.getAuthor());
         log.setNotes(dto.getNotes());
+
+        emailService.sendViolationNotificationEmail(currentUser.getEmail(), log);
 
         return violationRepository.save(log);
     }

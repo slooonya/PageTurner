@@ -68,6 +68,7 @@ public class SecurityConfig {
                     "/sign-up",
                     "/account-frozen",
                     "/forgot-password",
+                    "/password-reset",
                     "/verify-email",
                     "/verification-pending",
                     "/verification-error",
