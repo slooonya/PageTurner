@@ -19,10 +19,10 @@ export function resetForm() {
     form?.reset();
 
     $('logId').value = '';
-    $('formTitle').textContent = 'Add New Reading Log';
+    $('formTitle').textContent = 'New Reading Log';
 
     const submitButton = form?.querySelector('button[type="submit"]');
-    if (submitButton) submitButton.textContent = 'Add Log';
+    if (submitButton) submitButton.textContent = 'Create log';
 
     clearErrors();
 }
@@ -40,7 +40,7 @@ export function populateForm(log) {
     $('formTitle').textContent = 'Edit Reading Log';
 
     const submitButton = $('logForm')?.querySelector('button[type="submit"]');
-    if (submitButton) submitButton.textContent = 'Update Log';
+    if (submitButton) submitButton.textContent = 'Save Changes';
 
     clearErrors();
 }

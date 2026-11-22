@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/auth.css}" />
     <link rel="stylesheet" th:href="@{/css/global.css}" />
     <link rel="stylesheet" th:href="@{/css/error.css}" />
-    <title>Account Frozen</title>
+    <title>Account Banned | PageTurner</title>
 </head>
 <body>
   <div class="auth-container">
@@ -23,7 +23,7 @@
             <h2 class="title">Access Denied!</h2>
 
             <div class="alert alert-danger">
-              <p th:utext="${error} ?: 'Your Account Has Been Banned. <br> Contact Support: snmmnva@gmail.com'"></p>
+              <p th:utext="${error} ?: 'Your Account Has Been Banned. <br> Contact Support: pageturner@gmail.com'"></p>
             </div>
 
             <th:block th:if="${error == 'Link already expired, resend link'}">
@@ -47,7 +47,7 @@
 
     <div class="panels-container">
       <div class="panel left-panel error-help">
-        <div class="content">
+        <div class="side-content">
           <h3>Need help?</h3>
           <p>Contact support for further information and resolving this issue</p>
         </div>

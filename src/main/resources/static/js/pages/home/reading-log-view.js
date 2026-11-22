@@ -1,12 +1,11 @@
 import {
-    openModal,
-    closeModal
+    openModal
 } from './modal.js';
 
 const $ = (id) => document.getElementById(id);
 
 
-export function renderEntries(entries, handlers = {}) { 
+export function renderEntries(entries, handlers = {}) {
     const container = $('logs'); 
     if (!container) return; 
     container.replaceChildren(); 
@@ -15,10 +14,10 @@ export function renderEntries(entries, handlers = {}) {
         renderEmptyState(container, handlers); 
         return; 
     } 
-    
+
     entries.forEach((log) => { 
         container.appendChild( 
-            createLogCard(log, handlers) 
+            createLogCard(log, handlers)
         ); 
     }); 
 }
@@ -27,53 +26,73 @@ export function renderEntries(entries, handlers = {}) {
 function createLogCard(log, handlers) {
     const progress = getProgress(log);
 
-    const card = document.createElement("div");
+    const card = document.createElement('article');
 
     card.className = "log-card";
     card.innerHTML = `
         <div class="log-card-inner">
           <div class="log-card-front">
             <h3>${log.title}</h3>
-            <p>by ${log.author}</p>
+            <em><p>by ${log.author}</p></em>
 
             ${log.totalPages ? `
               <div class="log-progress">
                 <div class="log-progress-bar" style="width: ${progress}%"></div>
               </div>
-              <p>Progress: ${progress}% (${log.currentPage}/${log.totalPages})</p>
+              <p>${progress}% (${log.currentPage}/${log.totalPages})</p>
             ` : ''}
 
             <div class="log-meta">
-              <span>${formatDate(log.date)}</span>
-              <span>${log.timeSpent} min</span>
+              <div class="log-date">
+                <i class="fas fa-calendar"></i>
+                <span>${formatDate(log.date)}</span>
+              </div>
+
+              <div class="log-time">
+                <i class="fas fa-clock"></i>
+                <span>${log.timeSpent} min</span>
+              </div>
             </div>
           </div>
 
           <div class="log-card-back">
-            <div>
+            <div class="log-card-header">
               <h3>${log.title}</h3>
-              <p>by ${log.author}</p>
-              <p>Date: ${formatDate(log.date)}</p>
-              <p>Time: ${log.timeSpent} min</p>
+              <em><p>by ${log.author}</p></em>
+            </div>
 
-              ${log.notes ? `
+            <div class="log-meta-back">
+                <div class="log-date">
+                    <i class="fas fa-calendar"></i>
+                    <span>${formatDate(log.date)}</span>
+                </div>
+
+                <div class="log-time">
+                    <i class="fas fa-clock"></i>
+                    <span>${log.timeSpent} min</span>
+                </div>
+            </div>
+
+            <div class="log-notes">
+                <h4>Notes:</h4>
+                ${log.notes ? `
                 <p>
-                  ${log.notes.substring(0, 50)}
-                  ${log.notes.length > 50 ? '...' : ''}
+                    ${log.notes.substring(0, 50)}
+                    ${log.notes.length > 50 ? '...' : ''}
                 </p>
-              ` : ''}
+                ` : ''}
             </div>
 
             <div class="log-actions">
-              <button class="view-btn btn" data-id="${log.id}">
+              <button class="view-btn btn small secondary" data-id="${log.id}">
                 <i class="fas fa-eye"></i> Details
               </button>
 
-              <button class="edit-btn btn" data-id="${log.id}">
+              <button class="edit-btn btn small secondary" data-id="${log.id}">
                 <i class="fas fa-edit"></i> Edit
               </button>
 
-              <button class="delete-btn btn" data-id="${log.id}">
+              <button class="delete-btn btn small transparent" data-id="${log.id}">
                 <i class="fas fa-trash"></i> Delete
               </button>
             </div>
@@ -116,7 +135,7 @@ function renderEmptyState(container, handlers = {}) {
 }
 
 
-export function showLogDetails(log) {
+export function showLogDetails(log, history = []) {
     $('detailTitle').textContent = log.title;
     $('detailAuthor').textContent = log.author;
     $('detailDate').textContent = new Date(log.date).toLocaleDateString();
@@ -135,12 +154,13 @@ export function showLogDetails(log) {
         $('detailProgress').textContent = 'N/A';
     }
 
-    const historyButton = $('viewHistoryBtn'); 
-    if (historyButton) { 
-        historyButton.dataset.logId = String(log.id); 
-    }
+    renderHistoryList(history, log.id);
 
     openModal($('detailModal'));
+}
+
+export function getBookHistory(log, logs) {
+    return groupLogsByBook(logs).get(getBookKey(log)) || [];
 }
 
 
@@ -151,7 +171,7 @@ export function openEntryForm() {
     const logId = $('logId'); 
     if (logId) logId.value = '';
 
-    $('formTitle').textContent = 'Add New Reading Log';
+    $('formTitle').textContent = 'New Reading Log';
 
     const submitButton = form?.querySelector( 'button[type="submit"]' ); 
     if (submitButton) submitButton.textContent = 'Add Log';
@@ -159,64 +179,14 @@ export function openEntryForm() {
     openModal($('formModal'));
 }
 
-
-export function showHistoryLoading() { 
-    const button = $('viewHistoryBtn'); 
-    if (!button) return; 
-    
-    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...'; 
-}
-
-
-export function showHistory() { 
-    const container = $('historyContainer'); 
-    if (container) container.style.display = 'block';
-
-    const button = $('viewHistoryBtn'); 
-    if (button) button.innerHTML = '<i class="fas fa-history"></i> Hide History'; 
-}
-
-
-export function hideHistory() { 
-    const container = $('historyContainer'); 
-    if (container) container.style.display = 'none';
-
-    const button = $('viewHistoryBtn'); 
-    if (button) button.innerHTML = '<i class="fas fa-history"></i> View History';
-}
-
-
-export function clearHistory() { 
-    const historyList = $('historyList'); 
-    if (historyList) historyList.replaceChildren();
-}
-
-
-export function showHistoryError(message) { 
-    const historyList = $('historyList'); 
-    if (historyList) { 
-        historyList.replaceChildren(); 
-        
-        const error = document.createElement('p'); 
-        error.className = 'no-history'; 
-        error.textContent = message; 
-
-        historyList.appendChild(error); 
-    } 
-    
-    hideHistory();
-}
-
-
-export function renderHistoryList(history, currentLogId, handlers = {}) { 
-    const historyList = $('historyList'); 
+export function renderHistoryList(history, currentLogId, historyList = $('historyList')) {
     if (!historyList) return; 
 
     historyList.replaceChildren(); 
     if (!history.length) { 
         const message = document.createElement('p'); 
         message.className = 'no-history'; 
-        message.textContent = 'No previous reading history found.'; 
+        message.textContent = 'No reading history found.';
 
         historyList.appendChild(message); return; 
     } 
@@ -242,16 +212,48 @@ export function renderHistoryList(history, currentLogId, handlers = {}) {
             
             content.appendChild(badge); 
         } 
-        
-        const viewButton = document.createElement('button'); 
-        viewButton.type = 'button';
-        viewButton.className = 'history-view-btn btn small'; 
-        viewButton.innerHTML = '<i class="fas fa-eye"></i> View'; 
-        viewButton.addEventListener('click', () => handlers.onView?.(log.id)); 
-        
-        item.append(content, viewButton); 
+
+        const meta = document.createElement('div');
+        meta.className = 'history-meta';
+
+        const time = document.createElement('span');
+        time.className = 'history-stat';
+        time.innerHTML = `<i class="fas fa-clock" aria-hidden="true"></i> ${log.timeSpent ?? 0} min`;
+
+        const pages = document.createElement('span');
+        pages.className = 'history-stat';
+        pages.innerHTML = `<i class="fas fa-book-open" aria-hidden="true"></i> ${log.currentPage ?? 'N/A'} / ${log.totalPages ?? 'N/A'} pages`;
+
+        meta.append(time, pages);
+        item.append(content, meta);
         historyList.appendChild(item); 
     }); 
+}
+
+function groupLogsByBook(logs) {
+    const historyByBook = new Map();
+
+    logs.forEach((log) => {
+        const key = getBookKey(log);
+        const history = historyByBook.get(key) || [];
+        history.push(log);
+        historyByBook.set(key, history);
+    });
+
+    historyByBook.forEach((history) => {
+        history.sort((a, b) =>
+            String(b.date || '').localeCompare(String(a.date || '')) ||
+            Number(b.id) - Number(a.id)
+        );
+    });
+
+    return historyByBook;
+}
+
+function getBookKey(log) {
+    return [log.title, log.author]
+        .map((value) => String(value || '').trim().toLowerCase())
+        .join('\u0000');
 }
 
 

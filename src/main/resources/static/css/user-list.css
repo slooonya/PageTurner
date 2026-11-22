@@ -6,7 +6,7 @@
   width: 100%;
   overflow-x: auto;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 30px;
   background: white;
 }
 
@@ -92,21 +92,27 @@
 }
 
 .role-badge.moderator {
-  color:#6b46c1;
+  color: #6b46c1;
 }
 
 .role-badge.user {
-  color:var(--text-muted);
+  color: var(--dark-grey);
 }
 
-@media(max-width:768px){
+@media(max-width: 600px){
   .user-table{
-    min-width:680px;
-    font-size:.9rem;
+    min-width: 680px;
+    font-size: .9rem;
   }
 
   .user-table th,
   .user-table td{
-    padding:.65rem;
+    padding: .65rem;
+  }
+
+  .table-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 }

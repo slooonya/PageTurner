@@ -112,9 +112,9 @@ function handleSaveError(error) {
 
 function confirmRestore(id) {
     openConfirmationModal({
-        title: 'Restore Reading Log',
+        title: 'Restore Log',
         message: 'Are you sure you want to restore this reading log?',
-        confirmText: 'Restore Log',
+        confirmText: 'Restore',
         onConfirm: () => restoreLog(id)
     });
 }
@@ -144,12 +144,6 @@ function resetFilters() {
 }
 
 
-function toggleFilters() {
-    $('filterControls')?.classList.toggle('expanded');
-    $('filterToggle')?.classList.toggle('active');
-}
-
-
 function validateTimeInput(event) {
     if (Number(event.target.value) < 0) event.target.value = 0;
 }
@@ -164,7 +158,6 @@ function bindEvents() {
     $('sort')?.addEventListener('change', render);
     $('applyFilters')?.addEventListener('click', render);
     $('resetFilters')?.addEventListener('click', resetFilters);
-    $('filterToggle')?.addEventListener('click', toggleFilters);
     $('minTime')?.addEventListener('input', validateTimeInput);
     $('maxTime')?.addEventListener('input', validateTimeInput);
 }

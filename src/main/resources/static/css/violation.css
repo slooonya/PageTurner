@@ -1,16 +1,20 @@
+.log-meta {
+  padding-top: 0;
+}
+
 .violation-badge {
   display: inline-flex;
   gap: 0.4rem;
   align-items: center;
-  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
   color: var(--wine);
-  font-size: 0.875rem;
+  font-size: 24px;
   font-weight: 600;
 }
 
 .violation-empty-state {
   grid-column: 1 / -1;
   padding: 2rem;
-  color: #666;
+  color: var(--grey);
   text-align: center;
 }

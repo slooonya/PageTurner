@@ -6,31 +6,27 @@
   padding: 2rem 1rem; 
 }
 
-.back-link { 
-  margin-bottom: 1.5rem; 
-}
-
 .profile-card { 
   overflow: hidden; 
-  border-radius: 1rem; 
-  background: var(--surface); 
+  border-radius: 30px; 
+  background: var(--white); 
   box-shadow: var(--shadow); 
 }
 
-.profile-header { 
+.header { 
   display: flex; 
   align-items: center; 
   gap: 1.25rem; 
   padding: 2rem; 
-  color: #fff; 
-  background: linear-gradient(135deg, var(--wine-dark), var(--wine)); 
+  color: var(--white); 
+  background: var(--wine); 
 }
 
-.profile-header h1 { 
-  font-size: 1.8rem; 
+.header h1 { 
+  font-size: 32px; 
 }
 
-.profile-header p { 
+.header p { 
   opacity: .85; 
 }
 
@@ -41,7 +37,7 @@
   flex: 0 0 auto; 
   place-items: center; 
   overflow: hidden; 
-  border: 3px solid #fff; 
+  border: 5px solid var(--white); 
   border-radius: 50%; 
   background: var(--cream); 
   color: var(--wine); 
@@ -56,24 +52,23 @@
 
 .profile-section { 
   display: grid; 
-  gap: .65rem; 
+  gap: 16px; 
   padding: 1.5rem 2rem; 
   border-top: 1px solid #eee; 
 }
 
 .profile-section h2 { 
-  margin-bottom: .35rem; 
-  color: var(--wine); 
-  font-size: 1.25rem; 
+  color: var(--dark-grey); 
+  font-size: 24px; 
 }
 
 .profile-section label { 
-  color: #4b5563; 
+  color: var(--dark-grey); 
   font-weight: 500;
 }
 
 .profile-section label span { 
-  color: #6b7280; 
+  color: var(--grey); 
   font-size: .8rem; 
   font-weight: 400; 
 }
@@ -81,10 +76,10 @@
 .profile-section input, 
 .profile-section textarea { 
   width: 100%; 
-  padding: .7rem .8rem; 
-  border: 1px solid var(--border); 
-  border-radius: .5rem; 
-  color: var(--text); 
+  padding: 16px 24px; 
+  border: 2px solid var(--grey); 
+  border-radius: 20px; 
+  color: var(--dark-grey); 
   font: inherit; 
 }
 
@@ -101,19 +96,20 @@
 }
 
 .profile-section .btn { 
-  justify-self: start; 
-  margin-top: .5rem; 
+  justify-self: start;
+  width: 100%;
 }
 
 .upload-control { 
   display: inline-flex; 
-  width: fit-content; 
+  width: auto; 
   align-items: center; 
-  gap: .5rem; 
-  padding: .7rem 1rem; 
-  border: 1px dashed var(--wine); 
-  border-radius: .5rem; 
-  color: var(--wine) !important; 
+  justify-content: center;
+  gap: 16px; 
+  padding: 24px 48px; 
+  border: 3px dashed var(--wine); 
+  border-radius: 15px; 
+  color: var(--wine) !important;
   cursor: pointer; 
 }
 
@@ -129,7 +125,7 @@
   padding: .8rem 1rem; 
   border-radius: .5rem; 
   background: #2196f3; 
-  color: #fff; 
+  color: var(--white); 
   box-shadow: var(--shadow); 
 }
 
@@ -146,7 +142,7 @@
     padding: 2rem; 
   }
   
-  .profile-header { 
+  .header { 
     align-items: flex-start; 
     flex-direction: column; 
   }
@@ -154,8 +150,4 @@
   .profile-section { 
     padding: 1.25rem; 
   }
-  
-  .profile-section .btn { 
-    width: 100%; 
-  } 
 }

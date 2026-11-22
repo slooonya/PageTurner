@@ -9,7 +9,6 @@ import {
 import { filterAndSort } from '../shared/reading-log-filters.js';
 import * as view from './reading-log-view.js';
 import * as form from './reading-log-form.js';
-import { toggleReadingHistory, resetHistory, refreshCurrentHistory } from './reading-log-history.js';
 import { showToast } from './toast.js';
 import { openModal, closeAllModals, bindModalEvents, openConfirmationModal } from './modal.js';
 
@@ -86,8 +85,8 @@ async function handleEdit(id) {
 
 function handleDelete(id) { 
     openConfirmationModal({ 
-        title: 'Delete Reading Log', 
-        message: 'Are you sure you want to delete this reading log? This action cannot be undone.', 
+        title: 'Delete Log', 
+        message: 'Are you sure you want to delete this log? This action cannot be undone.', 
         confirmText: 'Delete', 
         cancelText: 'Cancel', 
         onConfirm: () => deleteLog(id)
@@ -105,12 +104,6 @@ function resetFilters() {
     if ($('sort')) $('sort').value = 'date-desc';
 
     render();
-}
-
-
-function toggleFilters() {
-    $('filterControls')?.classList.toggle('expanded');
-    $('filterToggle')?.classList.toggle('active');
 }
 
 
@@ -135,7 +128,8 @@ async function showLogDetails(logOrId) {
 
         state.currentHistoryLogId = log.id;
 
-        view.showLogDetails(log);
+        const history = view.getBookHistory(log, state.logs);
+        view.showLogDetails(log, history);
     } catch (error) {
         console.error('Failed to load log details:', error);
         showToast(error.message || 'Failed to load log details', 'error');
@@ -209,9 +203,6 @@ async function deleteLog(id) {
         if (String(state.currentHistoryLogId) === String(id)) {
             state.currentHistoryLogId = null;
             closeAllModals();
-            resetHistory();
-        } else {
-            await refreshCurrentHistory();
         }
 
         showToast('Reading entry deleted', 'success');
@@ -244,24 +235,10 @@ async function handleFormSubmit(event) {
         state.logs = await getReadingLogs(); 
         closeAllModals(); 
         render();
-        await refreshCurrentHistory(); 
     } catch (error) { 
         console.error('Failed to save reading log:', error); 
         showToast(error.message || 'Failed to save entry.', 'error'); 
     } 
-}
-
-
-function handleHistoryClick() {
-    const button = $('viewHistoryBtn');
-    const logId = button?.dataset.logId;
-
-    if (!logId) {
-        showToast('Unable to identify this reading log', 'error');
-        return;
-    }
-
-    toggleReadingHistory(logId);
 }
 
 
@@ -278,15 +255,12 @@ function bindEvents() {
     $('sort')?.addEventListener('change', render);
     $('applyFilters')?.addEventListener('click', render);
     $('resetFilters')?.addEventListener('click', resetFilters);
-    $('filterToggle')?.addEventListener('click', toggleFilters);
     $('minTime')?.addEventListener('input', validateTimeInput);
     $('maxTime')?.addEventListener('input', validateTimeInput);
-    $('viewHistoryBtn')?.addEventListener('click', handleHistoryClick);
 }
 
 bindEvents();
 bindModalEvents();
-resetHistory();
 closeAllModals();
 setupModalCloseBehavior();
 loadLogs();

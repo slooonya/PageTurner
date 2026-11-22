@@ -31,8 +31,6 @@ export function showLogDetails(log, onDelete) {
     $('detailAuthor').textContent = log.author;
     $('detailDate').textContent = formatDate(log.createdAt || log.date);
     $('detailTime').textContent = `${log.timeSpent} minutes`;
-    $('detailCurrentPage').textContent = log.currentPage ?? 'N/A';
-    $('detailTotalPages').textContent = log.totalPages ?? 'N/A';
     $('detailProgress').textContent = log.totalPages ? `${getProgress(log)}%` : 'N/A';
     $('detailNotes').textContent = log.notes || 'None';
     openModal($('detailModal'));
@@ -48,8 +46,8 @@ function createLogCard(log, handlers) {
     const card = document.createElement('div');
     card.className = 'log-card';
     card.innerHTML = `
-            <div class="log-book">
-                <h3 class="log-book-title">${escapeHtml(log.title)}</h3>
+            <div class="log-card-header">
+                <h3>${escapeHtml(log.title)}</h3>
                 <p class="log-author"><em>by ${escapeHtml(log.author)}</em></p>
             </div>
 
@@ -60,34 +58,34 @@ function createLogCard(log, handlers) {
                 <p>${progress}% (${log.currentPage}/${log.totalPages})</p>` : ''}
 
             <div class="log-meta">
-                <span>
-                    <i class="fas fa-user"></i>
-                    ${escapeHtml(log.userName || 'Unknown User')}
-                </span>
-
-                <span>
+                <div class="log-date">
                     <i class="fas fa-calendar"></i>
-                    ${formatDate(log.date)}
-                </span>
+                    <span>${formatDate(log.date)}</span>
+                </div>
+
+                <div class="log-date">
+                    <i class="fas fa-user"></i>
+                    <span>${escapeHtml(log.userName || 'Unknown User')}</span>
+                </div>
             </div>
 
             <div class="log-notes">
-                <span class="notes-label">Notes</span>
+                <h4>Notes:</h4>
                 ${log.notes ? `<p>${escapeHtml(truncate(log.notes, 50))}</p>` : ''}
             </div>
 
             <div class="log-actions">
-                <button class="btn details-btn">
+                <button class="btn primary details-btn small">
                     <i class="fas fa-eye"></i>
                     Details
                 </button>
 
-                <button class="btn edit-btn">
+                <button class="btn primary edit-btn small">
                     <i class="fas fa-pen"></i>
                     Edit
                 </button>
 
-                <button class="btn delete-btn">
+                <button class="btn cancel delete-btn small">
                     <i class="fas fa-trash"></i>
                     Delete
                 </button>

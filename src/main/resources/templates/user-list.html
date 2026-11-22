@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
+    <title>User Management | PageTurner</title>
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -74,7 +74,7 @@
         <form method="GET" th:action="@{/user-list}" class="search-box">
           <input type="text" name="searchQuery" class="search-input" placeholder="Search users..." th:value="${searchQuery}">
           
-          <button type="submit" class="btn-icon">
+          <button id="searchBtn" type="submit" class="btn-icon">
             <i class="fas fa-search"></i>
           </button>
         </form>
@@ -95,8 +95,7 @@
             <option value="desc">Descending</option>
           </select>
 
-          <button class="btn">
-            <i class="fas fa-sort"></i>
+          <button class="btn primary">
             Apply
           </button>
         </form>
@@ -133,7 +132,7 @@
               <td class="status-cell">
                 <span th:if="${user.isFrozen}" class="status-badge frozen">
                   <i class="fas fa-lock"></i>
-                  Frozen
+                  Inactive
                 </span>
 
                 <span th:unless="${user.isFrozen}" class="status-badge active">
@@ -175,12 +174,12 @@
         <div class="table-actions">
           <button type="button" data-endpoint="/user-list/freeze" class="btn secondary" data-user-action="freeze">
             <i class="fas fa-lock"></i>
-            Freeze
+            Ban
           </button>
 
           <button type="button" data-endpoint="/user-list/unfreeze" class="btn" data-user-action="unfreeze">
             <i class="fas fa-unlock"></i>
-            Unfreeze
+            Unban
           </button>
 
 
@@ -204,10 +203,9 @@
     aria-labelledby="confirmationTitle" aria-hidden="true" hidden>
   <div class="modal-content small-modal">
     <div class="modal-header">
-      <i class="fas fa-exclamation-circle fa-2x" aria-hidden="true"></i>
         <h2 id="confirmationTitle">Confirm Action</h2>
-        <button type="button" class="modal-close" aria-label="Close confirmation dialog">
-          &times;
+        <button type="button" class="modal-close" aria-label="Close confirmation dialog" data-modal-close >
+          <i class="fas fa-xmark"></i>
         </button>
     </div>
 
@@ -215,18 +213,18 @@
       <p id="confirmationMessage">
         Are you sure you want to perform this action?
       </p>
-    </div>
 
-    <div class="modal-actions">
-      <button type="button" id="confirmActionBtn" class="btn danger">
-        <i class="fas fa-check" aria-hidden="true"></i>
-        Confirm
-      </button>
+      <div class="modal-actions">
+        <button type="button" id="confirmActionBtn" class="btn danger">
+          <i class="fas fa-check" aria-hidden="true"></i>
+          Confirm
+        </button>
 
-      <button type="button" id="confirmCancelBtn" class="btn secondary">
-        <i class="fas fa-times" aria-hidden="true"></i>
-        Cancel
-      </button>
+        <button type="button" id="confirmCancelBtn" class="btn cancel">
+          <i class="fas fa-times" aria-hidden="true"></i>
+          Cancel
+        </button>
+      </div>
     </div>
   </div>
 </div>

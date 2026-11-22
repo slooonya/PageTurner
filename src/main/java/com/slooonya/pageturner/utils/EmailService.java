@@ -100,7 +100,7 @@ public class EmailService {
               <body>
                 <p>Dear %s,</p>
                 <p>Due too many violations of our content policy (logs frequently flagged as inappropriate) by our admin: </p>
-                <p>We are sorry to inform you that we have to freeze your account for a week.</p>
+                <p>We are sorry to inform you that we have to ban your account for a week.</p>
                 <p>Please consider taking your time reading our policy and try not to violate it again.</p>
                 <p>Your account will be unfrozen by: %s</p>
                 <p>Thank you for using PageTurner!</p>

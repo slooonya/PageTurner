@@ -10,14 +10,26 @@ header {
   gap: 2rem;
 }
 
-.empty-state { 
+.book-info,
+.reading-session {
+  display: flex;
+  flex-direction: column;
+  background: var(--white-smoke);
+  border-radius: 30px;
+  padding: 24px;
+  gap: 20px;
+}
+
+.empty-state {
+  font-size: 32px;
+  font-weight: 600;
   grid-column: 1 / -1;
   padding: 2rem; 
-  color: #666; 
+  color: var(--dark-grey); 
   text-align: center; 
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
   align-items: center;
 }

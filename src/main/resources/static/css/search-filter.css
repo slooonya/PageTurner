@@ -2,9 +2,14 @@
   display: flex; 
   align-items: center; 
   justify-content: space-between; 
-  gap: 1rem; margin-bottom: 1rem; 
-  color: var(--wine)
-} 
+  gap: 1rem; 
+  margin-bottom: 1rem; 
+  color: var(--dark-grey);
+}
+
+.header-top h1 {
+  font-size: 48px;
+}
 
 .toolbar { 
   display: flex; 
@@ -18,51 +23,88 @@
 .search-box { 
   display: flex; 
   flex: 1; 
-  max-width: 400px; 
+  max-width: 425px;
 } 
 
 .search-box input { 
   width: 100%; 
-  height: 40px; 
-  padding: 0.5rem 1rem; 
+  max-height: 56px;
+  padding: 12px 32px; 
   border: 1px solid var(--border); 
-  border-radius: 2rem 0 0 2rem; 
-  background: var(--surface); 
-  color: inherit; font: inherit; 
+  border-radius: 56px 0 0 56px; 
+  background: var(--white); 
+  font: inherit; 
 } 
 
 .search-box input:focus { 
   outline: 0; 
-  border-color: var(--wine); 
+  border-color: var(--dark-grey); 
 } 
 
 .search-box .btn-icon { 
-  border-radius: 0 2rem 2rem 0; 
+  border-radius: 0 56px 56px 0; 
+}
+
+.btn-icon i {
+  font-size: 24px;
+}
+
+#searchBtn {
+  height: 56px;
+  padding: 24px;
+}
+
+.sort-options select,
+.sort-options select::picker(select) {
+  appearance: base-select;
 }
 
 .sort-options { 
   display: flex; 
   align-items: center; 
-  gap: 0.5rem; 
+  gap: 16px; 
 } 
 
 .sort-options select { 
-  padding: 0.5rem; 
+  padding: 12px 16px; 
   border: 1px solid var(--border); 
-  border-radius: 0.5rem; 
-  background: var(--surface); 
-  color: inherit; 
-  font: inherit; 
+  border-radius: 15px; 
+  background: var(--white); 
+  color: var(--dark-grey);
+  font: inherit;
 } 
+
+.sort-options select::picker(select) {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
 .sort-options select:focus { 
   outline: 0; 
   border-color: var(--wine); 
 }
 
-.filter-toggle { 
-  display: none; 
-} 
+.sort-options select option {
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--dark-grey);
+  cursor: pointer;
+}
+
+.sort-options select option:checked {
+  background: var(--wine);
+  color: var(--white);
+}
+
+.sort-options label {
+  font-weight: 700; 
+  color: var(--dark-grey);
+  font-size: 18px;
+}
 
 .filter-controls { 
   display: flex; 
@@ -70,33 +112,34 @@
   flex-wrap: wrap; 
   gap: 1rem; 
   padding: 1rem; 
-  border-radius: 0.75rem; 
-  background: rgb(114 47 55 / 5%); 
+  border-radius: 30px; 
+  background: var(--wine); 
 } 
 
 .filter-group { 
   display: flex; 
   flex: 1; 
-  flex-direction: column; 
+  flex-direction: column;
+  align-items: center;
   min-width: 150px; 
   max-width: 200px; 
 } 
 
-.filter-group label { 
-  margin-bottom: 0.3rem; 
-  color: var(--wine);
-  font-size: 0.8rem; 
-  font-weight: 500; 
+.filter-group label {
+  margin-bottom: 8px; 
+  color: var(--white);
+  font-size: 24px; 
+  font-weight: 600; 
 } 
 
 .filter-group input { 
   width: 100%; 
   height: 40px; 
   padding: 0.5rem 0.75rem; 
-  border: 1px solid var(--border); 
-  border-radius: 0.4rem; 
-  background: var(--surface); 
-  color: inherit; 
+  border: none; 
+  border-radius: 15px; 
+  background: var(--white); 
+  color: var(--dark-grey); 
   font: inherit; 
 } 
 
@@ -119,40 +162,30 @@
   
   .search-box { 
     max-width: none; 
-  } 
+  }
+
+  .search-box input { 
+    max-height: 48px;
+  }
+
+  #searchBtn {
+    height: 48px;
+    padding: 24px;
+  }
   
-  .filter-toggle { 
-    display: inline-flex; 
-    align-items: center; 
-    gap: 0.5rem; 
-    border: 0; 
-    background: transparent; 
-    color: var(--wine); 
-    cursor: pointer; 
-    font: inherit; 
-    font-weight: 600; 
-  } 
-  
-  .filter-controls { 
-    display: none; 
-  } 
-  
-  .filter-controls.expanded { 
-    display: flex; 
+  .filter-container {
+    display: grid;
   } 
   
   .filter-group { 
     max-width: none; 
-  } 
-} 
+  }
 
-@media (max-width: 600px) { 
-  .header-top, 
-  .sort-options { 
-    align-items: stretch; 
-    flex-direction: column; 
-  } 
-  
+  .filter-group label {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
   .filter-actions { 
     width: 100%; 
     margin-left: 0; 
@@ -160,5 +193,13 @@
   
   .filter-actions .btn { 
     flex: 1; 
-  } 
+  }
+
+  .sort-options {
+    justify-content: space-between;
+  }
+
+  .header-top h1 {
+    font-size: 32px;
+  }
 }

@@ -43,7 +43,7 @@ export function showLogDetails(log) {
     $('detailDate').textContent = formatDate(log.createdAt || log.date);
     $('detailTime').textContent = `${log.timeSpent} minutes`;
     $('detailNotes').textContent = log.notes || 'None';
-    $('detailUser').textContent = log.username || 'Unknown';
+    $('detailUser').textContent = log.username || log.userName || 'Unknown';
     openModal($('detailModal'));
 }
 
@@ -56,16 +56,15 @@ export function openEditForm() {
 function createLogEntry(log, handlers) {
     const progress = getProgress(log);
     const card = document.createElement('article');
-    card.className = 'log-card violation-log-card';
+    card.className = 'log-card';
     card.innerHTML = `
-            <div class="log-book">
+            <div class="log-card-header">
+                <span class="violation-badge">
+                    <i class="fas fa-exclamation-triangle"></i> Violation
+                </span>
                 <h3>${escapeHtml(log.title || 'Untitled')}</h3>
                 <p>by ${escapeHtml(log.author || 'Unknown')}</p>
             </div>
-
-            <span class="violation-badge">
-                <i class="fas fa-exclamation-triangle"></i> Violation
-            </span>
 
             ${log.totalPages ? `
                 <div class="log-progress">
@@ -74,34 +73,34 @@ function createLogEntry(log, handlers) {
                 <p>${progress}% (${log.currentPage}/${log.totalPages})</p>` : ''}
 
             <div class="log-meta">
-                <span>
-                    <i class="fas fa-user"></i>
-                    ${escapeHtml(log.userName || 'Unknown User')}
-                </span>
-
-                <span>
+                <div class="log-date">
                     <i class="fas fa-calendar"></i>
-                    ${formatDate(log.date)}
-                </span>
+                    <span>${formatDate(log.date)}</span>
+                </div>
+
+                <div class="log-date">
+                    <i class="fas fa-user"></i>
+                    <span>${escapeHtml(log.username || log.userName || 'Unknown User')}</span>
+                </div>
             </div>
 
             <div class="log-notes">
-                <span class="notes-label">Notes</span>
+                <h4>Notes:</h4>
                 ${log.notes ? `<p>${escapeHtml(truncate(log.notes, 50))}</p>` : ''}
             </div>
 
             <div class="log-actions">
-                <button class="btn details-btn">
+                <button class="btn details-btn small">
                     <i class="fas fa-eye"></i>
                     Details
                 </button>
 
-                <button class="btn edit-btn">
+                <button class="btn edit-btn small">
                     <i class="fas fa-pen"></i>
                     Edit
                 </button>
 
-                <button class="btn delete-btn">
+                <button class="btn cancel delete-btn small">
                     <i class="fas fa-trash"></i>
                     Delete
                 </button>

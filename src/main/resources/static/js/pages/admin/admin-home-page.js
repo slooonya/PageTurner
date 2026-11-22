@@ -91,9 +91,9 @@ function handleSaveError(error) {
 
 function confirmDelete(id) {
     openConfirmationModal({
-        title: 'Delete Reading Log',
-        message: 'Are you sure you want to delete this reading log?',
-        confirmText: 'Delete Log',
+        title: 'Delete log',
+        message: 'Are you sure you want to delete this log?',
+        confirmText: 'Delete',
         onConfirm: () => deleteLog(id)
     });
 }
@@ -119,11 +119,6 @@ function resetFilters() {
     render();
 }
 
-function toggleFilters() {
-    $('filterControls')?.classList.toggle('expanded');
-    $('filterToggle')?.classList.toggle('active');
-}
-
 function validateTimeInput(event) {
     if (Number(event.target.value) < 0) event.target.value = 0;
 }
@@ -136,7 +131,6 @@ function bindEvents() {
     $('sort')?.addEventListener('change', render);
     $('applyFilters')?.addEventListener('click', render);
     $('resetFilters')?.addEventListener('click', resetFilters);
-    $('filterToggle')?.addEventListener('click', toggleFilters);
     $('minTime')?.addEventListener('input', validateTimeInput);
     $('maxTime')?.addEventListener('input', validateTimeInput);
 }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="_csrf" th:content="${_csrf.token}"/>
   <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-  <title>Home</title>
+  <title>Home | PageTurner</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/home.css}"/>
   <link rel="stylesheet" th:href="@{/css/navbar.css}">
@@ -64,10 +64,10 @@
     <div class="container">
       <header>
         <div class="header-top">
-          <h1>Reading Tracker</h1>
+          <h1>Reading Logs</h1>
           <div class="header-actions">
             <button id="addLogBtn" class="btn">
-              <i class="fas fa-plus"></i> Add Entry
+              <i class="fas fa-plus"></i> Add log
             </button>
           </div>
         </div>
@@ -93,11 +93,7 @@
           </div>
         </div>
 
-        <div class="filter-container">
-          <button class="filter-toggle" id="filterToggle">
-            <i class="fas fa-filter"></i> Filters
-          </button>
-          
+        <div class="filter-container">        
           <div class="filter-controls" id="filterControls">
             <div class="filter-group">
                 <label for="startDate">From</label>
@@ -120,12 +116,12 @@
               </div>
               
               <div class="filter-actions">
-                <button id="resetFilters" class="btn small transparent">
-                  <i class="fas fa-undo"></i> Reset
+                <button id="resetFilters" class="btn transparent">
+                  Reset
                 </button>
 
-                <button id="applyFilters" class="btn small">
-                  <i class="fas fa-check"></i> Apply
+                <button id="applyFilters" class="btn secondary">
+                  Apply
                 </button>
               </div>
           </div>
@@ -137,9 +133,10 @@
       <div class="modal" id="formModal" hidden>
         <div class="modal-content">
           <div class="modal-header">
-            <i class="fas fa-book-medical"></i>
-            <h2 id="formTitle">Add New Reading Log</h2>
-            <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
+            <h2 id="formTitle">New Reading Log</h2>
+            <button type="button" class="modal-close" data-modal-close aria-label="Close">
+              <i class="fas fa-xmark"></i>
+            </button>
           </div>
 
           <form id="logForm">
@@ -147,74 +144,62 @@
 
             <div class="form-grid">
               <div class="form-section">
-                <div class="section-header">
-                  <i class="fas fa-book"></i>
-                  <h3>Book Information</h3>
-                </div>
+                <h3>Book Information</h3>
 
                 <div class="form-group">
-                  <label for="title">
-                    <i class="fas fa-heading"></i> Book Title<span class="required">*</span>
-                  </label>
                   <div class="input-wrapper">
-                    <input type="text" id="title" required placeholder="Enter book title">
+                    <i class="fas fa-book"></i>
+                    <input type="text" id="title" required placeholder="Book title">
+                    <span class="required">*</span>
                     <div id="title-error" class="error-message"></div>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="author">
-                    <i class="fas fa-user-edit"></i> Author<span class="required">*</span>
-                  </label>
                   <div class="input-wrapper">
-                    <input type="text" id="author" required placeholder="Enter author name">
+                    <i class="fas fa-user-edit"></i>
+                    <input type="text" id="author" required placeholder="Author name">
+                    <span class="required">*</span>
                     <div id="author-error" class="error-message"></div>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="totalPages">
-                    <i class="fas fa-book-open"></i> Total Pages<span class="required">*</span>
-                  </label>
                   <div class="input-wrapper">
-                    <input type="number" id="totalPages" min="1" required placeholder="Total pages in book">
+                    <i class="fas fa-book-open"></i>
+                    <input type="number" id="totalPages" min="1" required placeholder="Total number of pages">
                     <div id="totalPages-error" class="error-message"></div>
+                    <span class="required">*</span>
                   </div>
                 </div>
               </div>
 
               <div class="form-section">
-                <div class="section-header">
-                  <i class="fas fa-clock"></i>
-                  <h3>Reading Session</h3>
-                </div>
+                <h3>Reading Session</h3>
 
                 <div class="form-group">
-                  <label for="date">
-                    <i class="fas fa-calendar-day"></i> Date<span class="required">*</span>
-                  </label>
                   <div class="input-wrapper">
+                    <i class="fas fa-calendar-day"></i>
                     <input type="date" id="date" required>
+                    <span class="required">*</span>
                     <div id="date-error" class="error-message"></div>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="timeSpent">
-                    <i class="fas fa-hourglass-half"></i> Time Spent (minutes)<span class="required">*</span>
-                  </label>
                   <div class="input-wrapper">
-                    <input type="number" id="timeSpent" min="0" required placeholder="Minutes spent reading">
+                    <i class="fas fa-hourglass-half"></i>
+                    <input type="number" id="timeSpent" min="0" required placeholder="Time spent (minutes)">
                     <div id="timeSpent-error" class="error-message"></div>
+                    <span class="required">*</span>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="currentPage">
-                    <i class="fas fa-bookmark"></i> Current Page<span class="required">*</span>
-                  </label>
                   <div class="input-wrapper">
-                    <input type="number" id="currentPage" min="0" required placeholder="Page you are on">
+                    <i class="fas fa-bookmark"></i>
+                    <input type="number" id="currentPage" min="0" required placeholder="Current page">
+                    <span class="required">*</span>
                     <div id="currentPage-error" class="error-message"></div>
                   </div>
                 </div>
@@ -222,10 +207,8 @@
             </div>
 
             <div class="form-section">
-              <div class="section-header">
-                <i class="fas fa-sticky-note"></i>
-                <h3>Notes</h3>
-              </div>
+              <h3>Notes</h3>
+
               <div class="form-group">
                 <div class="input-wrapper">
                   <textarea id="notes" placeholder="Any thoughts or reflections?"></textarea>
@@ -235,11 +218,7 @@
 
             <div class="form-actions">
               <button type="submit" class="btn primary">
-                <i class="fas fa-save"></i> Save
-              </button>
-              
-              <button type="button" class="btn secondary" data-modal-close>
-                <i class="fas fa-times"></i> Cancel
+                <i class="fas fa-save"></i> Create log
               </button>
             </div>
           </form>
@@ -249,101 +228,100 @@
       <div class="modal" id="detailModal" hidden>
         <div class="modal-content">
           <div class="modal-header">
-            <div class="header-icon">
-              <i class="fas fa-scroll"></i>
-            </div>
-
-            <h2>Reading Session Details</h2>
-            <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
+            <h2>Reading Log Details</h2>
+            <button type="button" class="modal-close" data-modal-close aria-label="Close">
+              <i class="fas fa-xmark"></i>
+            </button>
           </div>
 
           <div class="modal-body">
             <div class="detail-grid">
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="fas fa-book"></i>
+              <div class="book-info">
+                <h3>Book Information</h3>
+
+                <div class="detail-item">
+                  <div class="detail-icon">
+                    <i class="fas fa-book"></i>
+                  </div>
+
+                  <div class="detail-info">
+                    <div class="detail-label">Book Title</div>
+                    <div class="detail-value" id="detailTitle"></div>
+                  </div>
                 </div>
 
-                <div class="detail-info">
-                  <div class="detail-label">Book Title</div>
-                  <div class="detail-value" id="detailTitle"></div>
-                </div>
-              </div>
+                <div class="detail-item">
+                  <div class="detail-icon">
+                    <i class="fas fa-user-edit"></i>
+                  </div>
 
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="fas fa-user-edit"></i>
-                </div>
-
-                <div class="detail-info">
-                  <div class="detail-label">Author</div>
-                  <div class="detail-value" id="detailAuthor"></div>
-                </div>
-              </div>
-
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="fas fa-calendar-day"></i>
+                  <div class="detail-info">
+                    <div class="detail-label">Author</div>
+                    <div class="detail-value" id="detailAuthor"></div>
+                  </div>
                 </div>
 
-                <div class="detail-info">
-                  <div class="detail-label">Reading Date</div>
-                  <div class="detail-value" id="detailDate"></div>
-                </div>
-              </div>
+                <div class="detail-item">
+                  <div class="detail-icon">
+                    <i class="fas fa-book-open"></i>
+                  </div>
 
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="fas fa-hourglass-half"></i>
-                </div>
-
-                <div class="detail-info">
-                  <div class="detail-label">Time Spent</div>
-                  <div class="detail-value" id="detailTime"> minutes</div>
-                </div>
-              </div>
-
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="fas fa-book-open"></i>
-                </div>
-
-                <div class="detail-info">
-                  <div class="detail-label">Pages Read</div>
-                  <div class="detail-value">
-                    <span id="detailCurrentPage"></span> of <span id="detailTotalPages"></span>
+                  <div class="detail-info">
+                    <div class="detail-label">Pages Read</div>
+                    <div class="detail-value">
+                      <span id="detailCurrentPage"></span> of <span id="detailTotalPages"></span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div class="detail-item">
-                <div class="detail-icon">
-                  <i class="fas fa-chart-pie"></i>
+              <div class="reading-session">
+                <h3>Reading Session</h3>
+
+                <div class="detail-item">
+                  <div class="detail-icon">
+                    <i class="fas fa-calendar-day"></i>
+                  </div>
+
+                  <div class="detail-info">
+                    <div class="detail-label">Date</div>
+                    <div class="detail-value" id="detailDate"></div>
+                  </div>
                 </div>
 
-                <div class="detail-info">
-                  <div class="detail-label">Progress</div>
-                  <div class="detail-value" id="detailProgress"></div>
+                <div class="detail-item">
+                  <div class="detail-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                  </div>
+
+                  <div class="detail-info">
+                    <div class="detail-label">Time Spent</div>
+                    <div class="detail-value" id="detailTime"> minutes</div>
+                  </div>
+                </div>
+
+                <div class="detail-item">
+                  <div class="detail-icon">
+                    <i class="fas fa-chart-pie"></i>
+                  </div>
+
+                  <div class="detail-info">
+                    <div class="detail-label">Progress</div>
+                    <div class="detail-value" id="detailProgress"></div>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="notes-section">
-              <div class="notes-header">
-                <i class="fas fa-pencil-alt"></i>
-                <h3>Notes</h3>
-              </div>
+              <h3>Notes</h3>
 
               <div class="notes-content" id="detailNotes"></div>
             </div>
 
             <div class="history-section">
-              <button id="viewHistoryBtn" class="btn outline">
-                <i class="fas fa-history"></i> View Reading History
-              </button>
-
-              <div id="historyContainer" style="display: none; margin-top: 20px;">
-                <h3></i> Reading History</h3>
+              <div id="historyContainer">
+                <h3>History</h3>
                 <div id="historyList" class="history-list"></div>
               </div>
             </div>
@@ -353,14 +331,16 @@
 
       <div class="progress-warning-modal" id="progressWarningModal" hidden>
         <div class="modal-content">
-          <button type="button" class="close-btn" data-modal-close aria-label="Close">&times;</button>
+          <button type="button" class="close-btn" data-modal-close aria-label="Close">
+            <i class="fas fa-xmark"></i>
+          </button>
 
           <h3 id="warningTitle"></h3>
           <p id="warningMessage"></p>
 
           <div class="modal-actions">
-            <button id="confirmWarningBtn" type="button" class="btn">Continue Anyway</button>
-            <button id="cancelWarningBtn" type="button" class="btn transparent">Go Back</button>
+            <button id="confirmWarningBtn" type="button" class="btn">Continue</button>
+            <button id="cancelWarningBtn" type="button" class="btn transparent">Cancel</button>
           </div>
         </div>
       </div>
@@ -369,23 +349,24 @@
     <div class="modal" id="confirmationModal" hidden>
       <div class="modal-content small-modal">
         <div class="modal-header">
-          <i class="fas fa-exclamation-circle fa-2x"></i>
           <h2 id="confirmationTitle">Confirm Action</h2>
-          <button type="button" class="modal-close" data-modal-close aria-label="Close">&times;</button>
+          <button type="button" class="modal-close" data-modal-close aria-label="Close">
+            <i class="fas fa-xmark"></i>
+          </button>
         </div>
 
         <div class="modal-body">
           <p id="confirmationMessage">Are you sure you want to perform this action?</p>
-        </div>
 
-        <div class="modal-actions">
-          <button id="confirmActionBtn" class="btn danger">
-            <i class="fas fa-check"></i> Confirm
-          </button>
+          <div class="modal-actions">
+            <button id="confirmActionBtn" class="btn danger">
+              Confirm
+            </button>
 
-          <button id="confirmCancelBtn" class="btn secondary" data-modal-close>
-            <i class="fas fa-times"></i> Cancel
-          </button>
+            <button id="confirmCancelBtn" class="btn cancel" data-modal-close>
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>

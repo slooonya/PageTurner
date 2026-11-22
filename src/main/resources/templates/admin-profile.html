@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="_csrf" th:content="${_csrf.token}">
   <meta name="_csrf_header" th:content="${_csrf.headerName}">
-  <title>Profile</title>
+  <title>Profile | PageTurner</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/profile.css}">
   <link rel="stylesheet" th:href="@{/css/navbar.css}">
@@ -61,7 +61,7 @@
 
   <main class="profile-page">
     <section class="profile-card">
-      <header class="profile-header">
+      <header class="header">
         <div class="avatar">
           <img id="avatarImage" th:if="${user.avatarFileName}" 
             th:src="@{/avatars/{file}(file=${user.avatarFileName})}" 

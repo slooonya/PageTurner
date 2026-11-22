@@ -14,7 +14,7 @@
   padding: .875rem 1.25rem; 
   border-radius: .375rem; 
   background: #2196f3; 
-  color: #fff; 
+  color: var(--white); 
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   animation: toastIn 0.3s ease-out;
   transform-origin: bottom right; 

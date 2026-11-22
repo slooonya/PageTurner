@@ -4,6 +4,10 @@
   perspective: 1000px; 
 }
 
+.log-card h3 {
+  font-size: 24px;
+}
+
 .log-card-inner { 
   position: relative; 
   width: 100%; 
@@ -24,20 +28,27 @@
   height: 100%; 
   flex-direction: column; 
   padding: 1.5rem; 
-  border-radius: 1rem; 
+  border-radius: 20px; 
   box-shadow: var(--shadow); 
   backface-visibility: hidden; 
 }
 
 .log-card-front { 
-  background: var(--surface); 
+  background: var(--white); 
 }
 
 .log-card-back { 
+  gap: 16px;
   justify-content: space-between; 
   background: var(--wine); 
-  color: #fff; 
+  color: var(--white); 
   transform: rotateY(180deg); 
+}
+
+.log-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .log-meta {
@@ -45,15 +56,27 @@
   justify-content: space-between; 
   gap: .5rem; 
   margin-top: auto; 
-  color: #666;
+  color: var(--dark-grey);
+}
+
+.log-date,
+.log-time {
+  display: flex; 
+  align-items: center; 
+  gap: 8px;
+}
+
+.log-meta-back {
+  display: flex; 
+  justify-content: space-between; 
 }
 
 .log-progress { 
-  height: 10px; 
+  height: 15px; 
   margin: 1rem 0; 
   overflow: hidden; 
-  border-radius: 5px; 
-  background: #f0f0f0; 
+  border-radius: 50px; 
+  background: var(--white-smoke); 
 }
 
 .log-progress-bar {
@@ -73,27 +96,7 @@
   flex: 1; 
   padding: .5rem; 
   min-width: 0;
-  font-size: 0.9rem;
-}
-
-.log-card-back .btn {
-  border: 1px solid rgb(255 255 255 / 60%);
-  background: #fff;
-  color: var(--wine);
-}
-
-.log-card-back .btn:hover {
-  background: #f5f5f5;
-}
-
-.log-card-back .btn.secondary {
-  border-color: rgb(255 255 255 / 60%);
-  background: transparent;
-  color: #fff;
-}
-
-.log-card-back .btn.secondary:hover {
-  background: rgb(255 255 255 / 15%);
+  font-size: 14px;
 }
 
 @media (max-width: 600px) {

@@ -1,31 +1,31 @@
 #logForm {
-  padding: 1.5rem;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 24px;
 }
 
 .form-section {
-  padding: 1.25rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.625rem;
-  background: #f9fafb;
-}
-
-.section-header {
   display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  margin-bottom: 1.25rem;
-  color: #374151;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  border-radius: 30px;
+  background: var(--white-smoke);
 }
 
-.section-header i,
-.notes-header i {
+.form-section h3 {
+  color: var(--dark-grey);
+  font-size: 24px;
+}
+
+.section-header i {
   color: var(--wine);
 }
 
@@ -38,22 +38,39 @@
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
-  color: #4b5563;
+  color: var(--dark-grey);
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 .required {
-  color: #ef4444;
+  color: var(--pink);
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper > i {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: var(--grey); 
+  font-size: 18px; 
+  text-align: center; 
+  transition: color 200ms;
+  pointer-events: none;
 }
 
 .input-wrapper input,
 .input-wrapper textarea {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  background: var(--surface);
+  padding: 16px 44px;
+  border: 2px solid var(--grey);
+  border-radius: 20px;
+  background: var(--white);
   color: inherit;
   font: inherit;
 }
@@ -61,34 +78,62 @@
 .input-wrapper textarea {
   min-height: 100px;
   resize: vertical;
+  padding: 16px 24px;
+}
+
+.input-wrapper > i.fa-pen {
+  top: 18px;
+  transform: none;
+}
+
+.input-wrapper > .required {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.input-wrapper > .required:has(~ textarea) {
+  top: 18px;
+  transform: none;
 }
 
 .input-wrapper input:focus,
 .input-wrapper textarea:focus {
-    outline: 0;
-    border-color: var(--wine);
-    box-shadow: 0 0 0 3px rgb(114 47 55 / 15%);
+  outline: 0;
+  border-color: var(--wine);
+  box-shadow: 0 0 0 3px rgb(114 47 55 / 15%);
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
 }
 
 .form-actions {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1rem;
-  padding: 1.25rem;
+  align-items: stretch;
+  justify-content: center;
+  gap: 24px;
+}
+
+.form-actions .btn {
+  width: 100%;
 }
 
 @media (max-width: 600px) {
+    .form-section {
+      gap: 8px;
+    }
+
     .form-grid {
       grid-template-columns: 1fr;
     }
 
     .form-actions {
-        align-items: stretch;
-        flex-direction: column-reverse;
-    }
-
-    .form-actions .btn {
-        width: 100%;
+      flex-direction: column-reverse;
     }
 }
