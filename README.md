@@ -50,7 +50,7 @@
 * Promote or demote users
 * Ban or unban accounts
 
-<img width="1409" height="1916" alt="Screenshots" src="https://github.com/user-attachments/assets/b8e28dcb-c249-4ddb-812e-2bc7bb07c138" />
+<img width="3096" height="5274" alt="App Screens" src="https://github.com/user-attachments/assets/89022b82-d3cb-440e-a85a-0a945939cd7f" />
 
 ### Built With
 
