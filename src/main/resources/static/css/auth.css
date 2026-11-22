@@ -250,7 +250,8 @@
 
 .panel p { 
   margin-bottom: 8px;
-  font-size: 18px; 
+  font-size: 18px;
+  width: 70%;
 }
 
 .image { 
@@ -259,7 +260,7 @@
 }
 
 .left-panel .image { 
-  transform: translateX(-55%); 
+  transform: translateX(-70%); 
 }
 
 .right-panel .image, 
@@ -300,9 +301,11 @@
 .auth-container.sign-up-mode .left-panel .side-content { 
   transform: translateX(-800px); 
 }
+
 .auth-container.sign-up-mode .right-panel .image {
-  transform: translateX(100px);
+  transform: translateX(200px);
 }
+
 .auth-container.sign-up-mode .right-panel .side-content { 
   transform: translateX(0); 
 }
